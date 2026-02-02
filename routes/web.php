@@ -129,31 +129,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 });
 
-Route::prefix('admin/solutions')->name('admin.solutions.')->controller(SolutionController::class)->middleware('auth')->group(function () {
-
-    Route::get('/', 'index')->name('index');
-    Route::get('/create', 'create')->name('create');
-    Route::post('/store', 'store')->name('store');
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::put('/update/{id}', 'update')->name('update');
-    Route::post('/destroy/{id}', 'destroy')->name('destroy');
-    Route::post('/bulk-destroy', 'bulkDestroy')->name('bulk-destroy');
-    Route::post('/toggle-status/{id}', 'toggleStatus')->name('toggle-status');
-    Route::get('/search', 'search')->name('search');
-});
 
 
 
+Route::prefix('admin')->name('admin.')->group(function () {
 
+    Route::resource('why_choose_us', WhyChooseUsController::class);
 
-Route::prefix('admin')->group(function () {
-    Route::get('/why-choose-us', [WhyChooseUsController::class, 'index'])->name('admin.why_choose_us.index');
-    Route::get('/why-choose-us/search', [WhyChooseUsController::class, 'search'])->name('admin.why_choose_us.search');
-    Route::get('/why-choose-us/create', [WhyChooseUsController::class, 'create'])->name('admin.why_choose_us.create');
-    Route::post('/why-choose-us', [WhyChooseUsController::class, 'store'])->name('admin.why_choose_us.store');
-    Route::get('/why-choose-us/{id}/edit', [WhyChooseUsController::class, 'edit'])->name('admin.why_choose_us.edit');
-    Route::put('/why-choose-us/{id}', [WhyChooseUsController::class, 'update'])->name('admin.why_choose_us.update');
-    Route::delete('/why-choose-us/{id}', [WhyChooseUsController::class, 'destroy'])->name('admin.why_choose_us.destroy');
+    Route::post('why_choose_us/bulk-destroy', [WhyChooseUsController::class, 'bulkDestroy'])->name('why_choose_us.bulk-destroy');
+    Route::post('why_choose_us/toggle-status/{id}', [WhyChooseUsController::class, 'toggleStatus'])->name('why_choose_us.toggle-status');
+
 });
 
 

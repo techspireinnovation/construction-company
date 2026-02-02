@@ -10,10 +10,13 @@ class WhyChooseUs extends Model
     use SoftDeletes;
 
     protected $table = 'why_choose_us';
-    protected $fillable = ['title', 'image', 'icon', 'status'];
 
-    public function contents()
-    {
-        return $this->hasMany(WhyChooseUsContent::class, 'choose_us_id');
-    }
+    protected $fillable = [
+        'title',
+        'content',
+        'icon',
+        'status',
+    ];
+
+   
 }
