@@ -79,6 +79,13 @@
                         <span data-key="t-why-choose-us">Why Choose Us</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ request()->routeIs('admin.faqs.*') ? 'active' : '' }}"
+                       href="{{ route('admin.faqs.index') }}">
+                        <i data-feather="thumbs-up" class="icon-dual"></i>
+                        <span data-key="t-why-choose-us">Faqs</span>
+                    </a>
+                </li>
 
                 <!-- Testimonials -->
                 <li class="nav-item">

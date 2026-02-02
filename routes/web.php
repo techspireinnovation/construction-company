@@ -2,6 +2,7 @@
 use App\Http\Controllers\Backend\BlogCategoryController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Backend\GalleryController;
 use App\Http\Controllers\Backend\PartnerController;
 use App\Http\Controllers\Backend\ServiceController;
@@ -164,6 +165,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 });
 
+Route::prefix('admin')->name('admin.')->group(function () {
+
+    // Standard CRUD routes for FAQ
+    Route::resource('faqs', FaqController::class);
+
+    // Custom routes
+    Route::post('faqs/bulk-destroy', [FaqController::class, 'bulkDestroy'])->name('faqs.bulk-destroy');
+    Route::post('faqs/toggle-status/{id}', [FaqController::class, 'toggleStatus'])->name('faqs.toggle-status');
+
+});
 
 
 
