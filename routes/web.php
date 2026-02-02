@@ -1,24 +1,17 @@
 <?php
-
-use App\Http\Controllers\Backend\AppreciationController;
-use App\Http\Controllers\Backend\AwardController;
-use App\Http\Controllers\Backend\BenefitController;
 use App\Http\Controllers\Backend\BlogCategoryController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\DashboardController;
-use App\Http\Controllers\Backend\ExpertiseController;
 use App\Http\Controllers\Backend\GalleryController;
-use App\Http\Controllers\Backend\OperationController;
 use App\Http\Controllers\Backend\PartnerController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Backend\SiteSettingController;
-use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SolutionController;
+use App\Http\Controllers\Backend\TeamController;
 use App\Http\Controllers\Frontend\FrontendController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Backend\PageController;
-use App\Http\Controllers\Backend\PageTypeController;
 use App\Http\Controllers\Backend\WhyChooseUsController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\CareerController;
@@ -86,21 +79,6 @@ Route::prefix('admin/pages')->name('admin.pages.')->controller(PageController::c
     Route::post('/update-page-type', 'updatePageType')->name('updatePageType');
 });
 
-Route::prefix('admin/sliders')->name('admin.sliders.')->controller(SliderController::class)->middleware('auth')->group(function () {
-    Route::get('/', 'index')->name('index');
-    Route::get('/create', 'create')->name('create');
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::post('/store', 'store')->name('store');
-    Route::get('/store', function () {
-        return redirect()->route('admin.sliders.index')->with('error', 'Invalid request method.');
-    })->name('store.get');
-    Route::post('/delete', 'destroy')->name('destroy');
-    Route::get('/search', 'search')->name('search');
-});
-Route::put('backend/sliders/{id}', [SliderController::class, 'update'])->name('admin.sliders.update')->middleware('auth');
-Route::patch('backend/sliders/{id}/toggle-status', [SliderController::class, 'toggleStatus'])->name('admin.sliders.toggle_status')->middleware('auth');
-Route::post('backend/sliders/bulk-destroy', [SliderController::class, 'bulkDestroy'])->name('admin.sliders.bulk_destroy')->middleware('auth');
-
 Route::prefix('admin/site_setting')->name('admin.site_setting.')->controller(SiteSettingController::class)->middleware('auth')->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/edit/{id}', 'edit')->name('edit');
@@ -151,35 +129,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 });
 
-Route::prefix('admin/expertises')->name('admin.expertises.')->controller(ExpertiseController::class)->middleware('auth')->group(function () {
-
-    Route::get('/', 'index')->name('index');
-    Route::get('/create', 'create')->name('create');
-    Route::post('/store', 'store')->name('store');
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::put('/update/{id}', 'update')->name('update');
-    Route::post('/destroy/{id}', 'destroy')->name('destroy');
-    Route::post('/bulk-destroy', 'bulkDestroy')->name('bulk-destroy');
-    Route::post('/toggle-status/{id}', 'toggleStatus')->name('toggle-status');
-    Route::get('/search', 'search')->name('search');
-});
-
-
-
-Route::prefix('admin/operations')->name('admin.operations.')->controller(OperationController::class)->middleware('auth')->group(function () {
-
-    Route::get('/', 'index')->name('index');
-    Route::get('/create', 'create')->name('create');
-    Route::post('/store', 'store')->name('store');
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::put('/update/{id}', 'update')->name('update');
-    Route::post('/destroy/{id}', 'destroy')->name('destroy');
-    Route::post('/bulk-destroy', 'bulkDestroy')->name('bulk-destroy');
-    Route::post('/toggle-status/{id}', 'toggleStatus')->name('toggle-status');
-    Route::get('/search', 'search')->name('search');
-});
-
-
 Route::prefix('admin/solutions')->name('admin.solutions.')->controller(SolutionController::class)->middleware('auth')->group(function () {
 
     Route::get('/', 'index')->name('index');
@@ -193,54 +142,6 @@ Route::prefix('admin/solutions')->name('admin.solutions.')->controller(SolutionC
     Route::get('/search', 'search')->name('search');
 });
 
-
-Route::prefix('admin/benefits')->name('admin.benefits.')->controller(BenefitController::class)->middleware('auth')->group(function () {
-
-    Route::get('/', 'index')->name('index');
-    Route::get('/create', 'create')->name('create');
-    Route::post('/store', 'store')->name('store');
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::put('/update/{id}', 'update')->name('update');
-    Route::post('/destroy/{id}', 'destroy')->name('destroy');
-    Route::post('/bulk-destroy', 'bulkDestroy')->name('bulk-destroy');
-    Route::post('/toggle-status/{id}', 'toggleStatus')->name('toggle-status');
-    Route::get('/search', 'search')->name('search');
-});
-
-
-Route::prefix('admin/awards')->name('admin.awards.')->controller(AwardController::class)->middleware('auth')->group(function () {
-
-    Route::get('/', 'index')->name('index');
-    Route::get('/create', 'create')->name('create');
-    Route::post('/store', 'store')->name('store');
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::patch('/update/{id}', 'update')->name('update');
-    Route::delete('/destroy/{id}', 'destroy')->name('destroy');
-    Route::post('/bulk-destroy', 'bulkDestroy')->name('bulk-destroy');
-    Route::post('/toggle-status/{id}', 'toggleStatus')->name('toggle-status');
-    Route::get('/search', 'search')->name('search');
-});
-
-
-// Route::prefix('admin/awards')->name('admin.awards.')->controller(AwardController::class)->middleware('auth')->group(function () {
-
-//     Route::get('/', 'index')->name('index');
-//     Route::get('/create', 'create')->name('create');
-//     Route::post('/store', 'store')->name('store');
-//     Route::get('/edit/{id}', 'edit')->name('edit');
-//     Route::patch('/update/{id}', 'update')->name('update');
-//     Route::delete('/destroy/{id}', 'destroy')->name('destroy');
-//     Route::post('/bulk-destroy', 'bulkDestroy')->name('bulk-destroy');
-//     Route::post('/toggle-status/{id}', 'toggleStatus')->name('toggle-status');
-//     Route::get('/search', 'search')->name('search');
-// });
-
-
-
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::resource('page_types', PageTypeController::class)->except(['show']);
-    Route::get('page_types/search', [PageTypeController::class, 'search'])->name('page_types.search');
-});
 
 
 
@@ -267,18 +168,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('testimonials/toggle-status/{id}', [TestimonialController::class, 'toggleStatus'])->name('testimonials.toggle-status');
 
 });
+Route::prefix('admin')->name('admin.')->group(function () {
 
+    // Standard CRUD routes for Team
+    Route::resource('teams', TeamController::class);
 
-Route::prefix('admin')->group(function () {
-    Route::get('/appreciations', [AppreciationController::class, 'index'])->name('admin.appreciations.index');
-    Route::get('/appreciations/create', [AppreciationController::class, 'create'])->name('admin.appreciations.create');
-    Route::post('/appreciations', [AppreciationController::class, 'store'])->name('admin.appreciations.store');
-    Route::get('/appreciations/{id}/edit', [AppreciationController::class, 'edit'])->name('admin.appreciations.edit');
-    Route::put('/appreciations/{id}', [AppreciationController::class, 'update'])->name('admin.appreciations.update');
-    Route::delete('/appreciations/{id}', [AppreciationController::class, 'destroy'])->name('admin.appreciations.destroy');
-    Route::patch('/appreciations/{id}/toggle-status', [AppreciationController::class, 'toggle_status'])->name('admin.appreciations.toggle_status');
-    Route::post('/appreciations/bulk-destroy', [AppreciationController::class, 'bulk_destroy'])->name('admin.appreciations.bulk_destroy');
+    // Custom routes
+    Route::post('teams/bulk-destroy', [TeamController::class, 'bulkDestroy'])->name('teams.bulk-destroy');
+    Route::post('teams/toggle-status/{id}', [TeamController::class, 'toggleStatus'])->name('teams.toggle-status');
+
 });
+
 
 
 

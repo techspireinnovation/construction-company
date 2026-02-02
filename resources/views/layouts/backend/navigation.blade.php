@@ -115,6 +115,13 @@
                         <span data-key="t-services">Services</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ request()->routeIs('admin.teams.*') ? 'active' : '' }}"
+                       href="{{ route('admin.teams.index') }}">
+                        <i data-feather="briefcase" class="icon-dual"></i>
+                        <span data-key="t-services">Teams</span>
+                    </a>
+                </li>
 
                 <!-- About Sections -->
                 @php
@@ -136,12 +143,12 @@
                     <div class="collapse menu-dropdown {{ request()->routeIs($aboutRoutes) ? 'show' : '' }}" id="sidebarAbout">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('admin.expertises.index') }}"
+                                <a href="#"
                                    class="nav-link {{ request()->routeIs('admin.expertises.*') ? 'active' : '' }}"
                                    data-key="t-expertises">Blog Category</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('admin.operations.index') }}"
+                                <a href="#"
                                    class="nav-link {{ request()->routeIs('admin.operations.*') ? 'active' : '' }}"
                                    data-key="t-operations">Blog List</a>
                             </li>
