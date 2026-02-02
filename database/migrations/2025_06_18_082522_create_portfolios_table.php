@@ -15,14 +15,19 @@ return new class extends Migration {
             $table->string('title', 100);
             $table->string('slug', 100)->unique();
             $table->unsignedInteger('portfolio_category_id');
+            $table->unsignedInteger('partner_id');
             $table->string('banner_image')->nullable();
             $table->text('short_description');
             $table->text('description');
-            $table->string('images');
+            $table->json('images');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->tinyInteger('project_status')->default(0)->comment('0=completed, 1=ongoing, 2=upcoming');
             $table->tinyInteger('status')->default(0)->comment('0=active, 1=inactive');
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('portfolio_category_id')->references('id')->on('portfolio_categories')->cascadeOnDelete();
+            $table->foreign('partner_id')->references('id')->on('partners')->cascadeOnDelete();
 
         });
     }

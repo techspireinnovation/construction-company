@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Repositories\Interfaces\PartnerRepositoryInterface;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
 use App\Repositories\Interfaces\TeamRepositoryInterface;
 use App\Repositories\Interfaces\TestimonialRepositoryInterface;
 use App\Repositories\Interfaces\WhyChooseUsRepositoryInterface;
+use App\Repositories\PartnerRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\TeamRepository;
 use App\Repositories\TestimonialRepository;
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TestimonialRepositoryInterface::class, TestimonialRepository::class);
         $this->app->bind(TeamRepositoryInterface::class, TeamRepository::class);
         $this->app->bind(WhyChooseUsRepositoryInterface::class, WhyChooseUsRepository::class);
+        $this->app->bind(PartnerRepositoryInterface::class, PartnerRepository::class);
 
     }
 

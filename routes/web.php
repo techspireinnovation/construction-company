@@ -87,21 +87,17 @@ Route::prefix('admin/site_setting')->name('admin.site_setting.')->controller(Sit
     Route::get('/search', 'search')->name('search');
 });
 Route::put('backend/settings/{id}', [SiteSettingController::class, 'update'])->name('admin.settings.update')->middleware('auth');
+Route::prefix('admin')->name('admin.')->group(function () {
 
-Route::prefix('admin/partners')->name('admin.partners.')->controller(PartnerController::class)->middleware('auth')->group(function () {
-    Route::get('/', 'index')->name('index');
-    Route::get('/create', 'create')->name('create');
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::post('/update/{id}', 'update')->name('update');
-    Route::post('/store', 'store')->name('store');
-    Route::get('/store', function () {
-        return redirect()->route('admin.partners.index')->with('error', 'Invalid request method.');
-    })->name('store.get');
-    Route::post('/destroy/{id}', 'destroy')->name('destroy'); // New route for single deletion
-    Route::post('/bulk-destroy', 'bulkDestroy')->name('bulk-destroy'); // Updated for bulk deletion
-    Route::get('/search', 'search')->name('search');
-    Route::post('/toggle-status/{id}', 'toggleStatus')->name('toggle-status');
+    // Standard CRUD routes for Partner
+    Route::resource('partners', PartnerController::class);
+
+    // Custom routes
+    Route::post('partners/bulk-destroy', [PartnerController::class, 'bulkDestroy'])->name('partners.bulk-destroy');
+    Route::post('partners/toggle-status/{id}', [PartnerController::class, 'toggleStatus'])->name('partners.toggle-status');
+
 });
+
 
 
 

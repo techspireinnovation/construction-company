@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('partners', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->nullable();
-            $table->string('image')->nullable();
+            $table->string('name', 100);
+            $table->string('image');
             $table->tinyInteger('status')->default(0)->comment('0=active, 1=inactive');
             $table->softDeletes();
             $table->timestamps();
