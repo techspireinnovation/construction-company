@@ -139,34 +139,6 @@ Route::prefix('admin/gallery')->name('admin.gallery.')->controller(GalleryContro
 });
 
 
-// Route::prefix('admin/services')->name('admin.services.')->controller(ServiceController::class)->middleware('auth')->group(function () {
-
-//     Route::get('/', 'index')->name('index');
-//     Route::get('/create', 'create')->name('create');
-//     Route::post('/store', 'store')->name('store');
-//     Route::get('/edit/{id}', 'edit')->name('edit');
-//     Route::put('/update/{id}', 'update')->name('update');
-//     Route::post('/destroy/{id}', 'destroy')->name('destroy');
-//     Route::post('/bulk-destroy', 'bulkDestroy')->name('bulk-destroy');
-//     Route::post('/toggle-status/{id}', 'toggleStatus')->name('toggle-status');
-//     Route::get('/search', 'search')->name('search');
-// });
-
-// Route::prefix('admin/services')
-//     ->name('admin.services.')
-//     ->middleware('auth')
-//     ->controller(ServiceController::class)
-//     ->group(function () {
-
-//         Route::get('/', 'index')->name('index');
-//         Route::get('/create', 'create')->name('create');
-//         Route::post('/store', 'store')->name('store');
-//         Route::get('/edit/{id}', 'edit')->name('edit');
-//         Route::put('/update/{id}', 'update')->name('update');
-//         Route::get('/delete/{id}', 'destroy')->name('destroy');
-//         Route::post('/bulk-destroy', 'bulkDestroy')->name('bulk-destroy');
-//         Route::patch('/toggle-status/{id}', 'toggleStatus')->name('toggle-status');
-//     });
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -285,16 +257,15 @@ Route::prefix('admin')->group(function () {
 
 
 
+Route::prefix('admin')->name('admin.')->group(function () {
 
-Route::prefix('admin')->group(function () {
-    Route::get('/testimonials', [TestimonialController::class, 'index'])->name('admin.testimonials.index');
-    Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('admin.testimonials.create');
-    Route::post('/testimonials', [TestimonialController::class, 'store'])->name('admin.testimonials.store');
-    Route::get('/testimonials/{id}/edit', [TestimonialController::class, 'edit'])->name('admin.testimonials.edit');
-    Route::put('/testimonials/{id}', [TestimonialController::class, 'update'])->name('admin.testimonials.update');
-    Route::delete('/testimonials/{id}', [TestimonialController::class, 'destroy'])->name('admin.testimonials.destroy');
-    Route::patch('/testimonials/{id}/toggle-status', [TestimonialController::class, 'toggle_status'])->name('admin.testimonials.toggle_status');
-    Route::post('/testimonials/bulk-destroy', [TestimonialController::class, 'bulk_destroy'])->name('admin.testimonials.bulk_destroy');
+    // Standard CRUD routes for Testimonial
+    Route::resource('testimonials', TestimonialController::class);
+
+    // Custom routes
+    Route::post('testimonials/bulk-destroy', [TestimonialController::class, 'bulkDestroy'])->name('testimonials.bulk-destroy');
+    Route::post('testimonials/toggle-status/{id}', [TestimonialController::class, 'toggleStatus'])->name('testimonials.toggle-status');
+
 });
 
 
