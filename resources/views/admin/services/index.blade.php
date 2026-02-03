@@ -173,59 +173,6 @@
 <script src="{{ asset('js/delete-handler.js') }}"></script>
 <script src="{{ asset('js/page-handler.js') }}"></script>
 
-{{--
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Handle multiple delete
-        const deleteMultipleBtn = document.querySelector('#delete-multiple-btn');
-        const checkboxes = document.querySelectorAll('input[name="chk_child"]');
-        const checkAll = document.querySelector('#checkAll');
-
-        // Update delete button state based on checkbox selection
-        function updateDeleteButtonState() {
-            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
-            deleteMultipleBtn.disabled = checkedCount === 0;
-            deleteMultipleBtn.title = checkedCount === 0 ? 'Select at least one service to delete' : 'Delete selected services';
-        }
-
-        // Initial state
-        updateDeleteButtonState();
-
-        // Update button state on checkbox change
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', updateDeleteButtonState);
-        });
-
-        // Handle check all checkbox
-        checkAll.addEventListener('change', function () {
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = this.checked;
-            });
-            updateDeleteButtonState();
-        });
-
-
-        // Handle search (client-side filtering)
-        document.querySelector('#search-input').addEventListener('input', function () {
-            const searchTerm = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#serviceTable tbody tr');
-            let hasResults = false;
-
-            rows.forEach(row => {
-                const title = row.querySelector('.title').textContent.toLowerCase();
-                const short_description = row.querySelector('.short_description').textContent.toLowerCase();
-                if (title.includes(searchTerm) || short_description.includes(searchTerm)) {
-                    row.style.display = '';
-                    hasResults = true;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            document.querySelector('.noresult').style.display = hasResults ? 'none' : 'block';
-        });
-    });
-</script> --}}
 
 
 @endsection

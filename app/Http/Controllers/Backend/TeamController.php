@@ -77,4 +77,11 @@ class TeamController extends Controller
         return redirect()->route('admin.teams.index')
             ->with('success', 'Status updated successfully.');
     }
+    public function updateOrder(Request $request)
+    {
+        $this->teamRepository->updateOrder($request->order);
+
+        return response()->json(['success' => true]);
+    }
+
 }

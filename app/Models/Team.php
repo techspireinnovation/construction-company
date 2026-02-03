@@ -14,6 +14,7 @@ class Team extends Model
         'name',
         'designation',
         'image',
+        'order_no',
         'instagram_link',
         'facebook_link',
         'linkedin_link',

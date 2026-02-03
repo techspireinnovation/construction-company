@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\CareerRepository;
+use App\Repositories\GalleryRepository;
+use App\Repositories\Interfaces\CareerRepositoryInterface;
+use App\Repositories\Interfaces\GalleryRepositoryInterface;
 use App\Repositories\Interfaces\PartnerRepositoryInterface;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
 use App\Repositories\Interfaces\TeamRepositoryInterface;
@@ -26,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TeamRepositoryInterface::class, TeamRepository::class);
         $this->app->bind(WhyChooseUsRepositoryInterface::class, WhyChooseUsRepository::class);
         $this->app->bind(PartnerRepositoryInterface::class, PartnerRepository::class);
+        $this->app->bind(GalleryRepositoryInterface::class, GalleryRepository::class);
+        $this->app->bind(CareerRepositoryInterface::class, CareerRepository::class);
 
     }
 

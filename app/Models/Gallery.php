@@ -9,10 +9,15 @@ class Gallery extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['title', 'content', 'images', 'status'];
+    protected $fillable = [
+        'title',
+        'images',
+        'status',
+    ];
 
     protected $casts = [
         'images' => 'array',
         'status' => 'boolean',
     ];
+    
 }

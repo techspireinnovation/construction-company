@@ -107,8 +107,8 @@
 
                 <!-- Gallery -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link {{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}"
-                       href="{{ route('admin.gallery.index') }}">
+                    <a class="nav-link menu-link {{ request()->routeIs('admin.galleries.*') ? 'active' : '' }}"
+                       href="{{ route('admin.galleries.index') }}">
                         <i data-feather="grid" class="icon-dual"></i>
                         <span data-key="t-gallery">Gallery</span>
                     </a>

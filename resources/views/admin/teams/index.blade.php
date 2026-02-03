@@ -14,7 +14,9 @@
                         <h4 class="mb-sm-0">Team Members</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}">Team</a></li>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('admin.teams.index') }}">Team</a>
+                                </li>
                                 <li class="breadcrumb-item active">Team List</li>
                             </ol>
                         </div>
@@ -32,27 +34,31 @@
 
                         <div class="card-body">
                             <div class="listjs-table" id="teamList">
+
                                 <div class="row g-4 mb-3">
                                     <div class="col-sm-auto">
-                                        <div>
-                                            <a href="{{ route('admin.teams.create') }}" class="btn btn-primary add-btn">
-                                                <i class="ri-add-line align-bottom me-1"></i> Add
-                                            </a>
-                                            <button
+                                        <a href="{{ route('admin.teams.create') }}" class="btn btn-primary">
+                                            <i class="ri-add-line align-bottom me-1"></i> Add
+                                        </a>
+
+                                        <button
                                             class="btn btn-soft-danger js-bulk-delete"
                                             id="delete-multiple-btn"
                                             disabled
                                             data-action="{{ route('admin.teams.bulk-destroy') }}"
                                             data-csrf="{{ csrf_token() }}"
                                             data-checkbox=".chk-child">
-                                                <i class="ri-delete-bin-2-line"></i>
-                                            </button>
-                                        </div>
+                                            <i class="ri-delete-bin-2-line"></i>
+                                        </button>
                                     </div>
+
                                     <div class="col-sm">
                                         <div class="d-flex justify-content-sm-end">
                                             <div class="search-box ms-2">
-                                                <input type="text" class="form-control search" placeholder="Search..." id="search-input">
+                                                <input type="text"
+                                                       class="form-control search"
+                                                       placeholder="Search..."
+                                                       id="search-input">
                                                 <i class="ri-search-line search-icon"></i>
                                             </div>
                                         </div>
@@ -65,49 +71,73 @@
                                             <tr>
                                                 <th style="width:50px;">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="checkAll" value="option">
+                                                        <input class="form-check-input" type="checkbox" id="checkAll">
                                                     </div>
                                                 </th>
-                                                <th class="sort" data-sort="name">Name</th>
-                                                <th class="sort" data-sort="designation">Designation</th>
-                                                <th class="sort" data-sort="image">Image</th>
-                                                <th class="sort" data-sort="status">Status</th>
-                                                <th class="sort" data-sort="action">Action</th>
+                                                <th>Name</th>
+                                                <th>Designation</th>
+                                                <th>Image</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="list form-check-all">
+
+                                        <!-- IMPORTANT: sortable tbody -->
+                                        <tbody class="list form-check-all sortable-tbody">
                                             @foreach ($teams as $team)
-                                                <tr>
-                                                    <th>
+                                                <tr data-id="{{ $team->id }}">
+                                                    <td>
                                                         <div class="form-check">
-                                                            <input class="form-check-input chk-child" type="checkbox" name="chk_child" value="{{ $team->id }}">
+                                                            <input class="form-check-input chk-child"
+                                                                   type="checkbox"
+                                                                   value="{{ $team->id }}">
                                                         </div>
-                                                    </th>
+                                                    </td>
+
                                                     <td class="name">{{ $team->name }}</td>
                                                     <td class="designation">{{ $team->designation }}</td>
-                                                    <td class="image">
+
+                                                    <td>
                                                         @if($team->image)
-                                                            <img src="{{ asset('storage/' . $team->image) }}" alt="{{ $team->name }}" style="max-width:50px; max-height:50px;">
+                                                            <img src="{{ asset('storage/'.$team->image) }}"
+                                                                 alt="{{ $team->name }}"
+                                                                 style="max-width:50px;max-height:50px;">
                                                         @else
                                                             <span class="text-muted">No Image</span>
                                                         @endif
                                                     </td>
-                                                    <td class="status">
+
+                                                    <td>
                                                         <form action="{{ route('admin.teams.toggle-status', $team->id) }}" method="POST">
                                                             @csrf
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input status-toggle" type="checkbox" role="switch" id="status-{{ $team->id }}" {{ $team->status ? 'checked' : '' }} onchange="this.form.submit()">
-                                                                <label class="form-check-label" style="padding-left:40px;" for="status-{{ $team->id }}">{{ $team->status ? 'Active' : 'Inactive' }}</label>
+                                                                <input class="form-check-input"
+                                                                       type="checkbox"
+                                                                       role="switch"
+                                                                       {{ $team->status ? 'checked' : '' }}
+                                                                       onchange="this.form.submit()">
+                                                                <label class="form-check-label ms-2">
+                                                                    {{ $team->status ? 'Active' : 'Inactive' }}
+                                                                </label>
                                                             </div>
                                                         </form>
                                                     </td>
+
                                                     <td>
                                                         <div class="d-flex gap-2">
-                                                            <a href="{{ route('admin.teams.edit', $team->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                                            <a href="{{ route('admin.teams.edit', $team->id) }}"
+                                                               class="btn btn-sm btn-primary">
+                                                                Edit
+                                                            </a>
+
                                                             <form action="{{ route('admin.teams.destroy', $team->id) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="button" class="btn btn-sm btn-danger js-single-delete" data-message="Are you sure you want to delete this team member?">Remove</button>
+                                                                <button type="button"
+                                                                        class="btn btn-sm btn-danger js-single-delete"
+                                                                        data-message="Are you sure you want to delete this team member?">
+                                                                    Remove
+                                                                </button>
                                                             </form>
                                                         </div>
                                                     </td>
@@ -119,23 +149,14 @@
                                     <div class="noresult" style="display:none">
                                         <div class="text-center">
                                             <h5 class="mt-2">Sorry! No Result Found</h5>
-                                            <p class="text-muted mb-0">No team members found for your search.</p>
+                                            <p class="text-muted mb-0">No team members found.</p>
                                         </div>
                                     </div>
                                 </div>
 
+                                {{-- Pagination (OK to keep, but sorting best without pagination) --}}
                                 <div class="d-flex justify-content-end">
-                                    <div class="pagination-wrap hstack gap-2">
-                                        <a class="page-item pagination-prev {{ $teams->previousPageUrl() ? '' : 'disabled' }}" href="{{ $teams->previousPageUrl() }}">Previous</a>
-                                        <ul class="pagination listjs-pagination mb-0">
-                                            @for ($i = 1; $i <= $teams->lastPage(); $i++)
-                                                <li class="page-item {{ $teams->currentPage() == $i ? 'active' : '' }}">
-                                                    <a class="page-link" href="{{ $teams->url($i) }}">{{ $i }}</a>
-                                                </li>
-                                            @endfor
-                                        </ul>
-                                        <a class="page-item pagination-next {{ $teams->nextPageUrl() ? '' : 'disabled' }}" href="{{ $teams->nextPageUrl() }}">Next</a>
-                                    </div>
+                                    {{ $teams->links() }}
                                 </div>
 
                             </div>
@@ -149,12 +170,12 @@
 </div>
 
 @include('components.delete-confirm-modal')
-
 @endsection
 
 @section('style')
 <style>
     .invalid-feedback:empty { display: none; }
+    .sortable-tbody tr { cursor: move; }
 </style>
 @endsection
 
@@ -162,8 +183,13 @@
 <script src="{{ asset('js/delete-handler.js') }}"></script>
 <script src="{{ asset('js/page-handler.js') }}"></script>
 
+<!-- SortableJS -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+
+    // Table manager (unchanged)
     window.tableManager = TableManager.init({
         tableId: 'teamTable',
         searchInputId: 'search-input',
@@ -177,6 +203,31 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     DeleteHandler.init();
+
+    // Drag & drop ordering (NO UI change)
+    new Sortable(document.querySelector('.sortable-tbody'), {
+        animation: 150,
+        onEnd: function () {
+            let order = [];
+
+            document.querySelectorAll('.sortable-tbody tr').forEach((row, index) => {
+                order.push({
+                    id: row.dataset.id,
+                    position: index + 1
+                });
+            });
+
+            fetch("{{ route('admin.teams.update-order') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ order })
+            });
+        }
+    });
+
 });
 </script>
 @endsection

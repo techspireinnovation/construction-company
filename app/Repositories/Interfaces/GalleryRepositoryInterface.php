@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-interface TeamRepositoryInterface
+interface GalleryRepositoryInterface
 {
     public function all();
     public function store(array $data);
@@ -11,5 +11,4 @@ interface TeamRepositoryInterface
     public function delete(int $id);
     public function bulkDestroy(array $ids);
     public function toggleStatus(int $id): array;
-    public function updateOrder(array $orders): void;
 }

@@ -100,19 +100,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
 
+Route::prefix('admin')->name('admin.')->group(function () {
 
-Route::prefix('admin/gallery')->name('admin.gallery.')->controller(GalleryController::class)->middleware('auth')->group(function () {
-    Route::get('/', 'index')->name('index');
-    Route::get('/create', 'create')->name('create');
-    Route::post('/store', 'store')->name('store');
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::post('/update/{id}', 'update')->name('update');
-    Route::post('/destroy/{id}', 'destroy')->name('destroy');
-    Route::post('/bulk-destroy', 'bulkDestroy')->name('bulk-destroy');
-    Route::post('/toggle-status/{id}', 'toggleStatus')->name('toggle-status');
-    Route::get('/search', 'search')->name('search');
+    Route::resource('galleries', GalleryController::class);
+
+    Route::post('galleries/bulk-destroy', [GalleryController::class, 'bulkDestroy'])
+        ->name('galleries.bulk-destroy');
+
+    Route::post('galleries/toggle-status/{id}', [GalleryController::class, 'toggleStatus'])
+        ->name('galleries.toggle-status');
 });
-
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -150,6 +147,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('testimonials/toggle-status/{id}', [TestimonialController::class, 'toggleStatus'])->name('testimonials.toggle-status');
 
 });
+
 Route::prefix('admin')->name('admin.')->group(function () {
 
     // Standard CRUD routes for Team
@@ -158,6 +156,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Custom routes
     Route::post('teams/bulk-destroy', [TeamController::class, 'bulkDestroy'])->name('teams.bulk-destroy');
     Route::post('teams/toggle-status/{id}', [TeamController::class, 'toggleStatus'])->name('teams.toggle-status');
+    Route::post('teams/update-order', [TeamController::class, 'updateOrder'])
+        ->name('teams.update-order');
 
 });
 
@@ -174,17 +174,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
 
+Route::prefix('admin')->name('admin.')->group(function () {
 
-Route::prefix('admin')->group(function () {
-    Route::get('/careers', [CareerController::class, 'index'])->name('admin.careers.index');
-    Route::get('/careers/create', [CareerController::class, 'create'])->name('admin.careers.create');
-    Route::post('/careers', [CareerController::class, 'store'])->name('admin.careers.store');
-    Route::get('/careers/{id}/edit', [CareerController::class, 'edit'])->name('admin.careers.edit');
-    Route::put('/careers/{id}', [CareerController::class, 'update'])->name('admin.careers.update');
-    Route::delete('/careers/{id}', [CareerController::class, 'destroy'])->name('admin.careers.destroy');
-    Route::patch('/careers/{id}/toggle-status', [CareerController::class, 'toggle_status'])->name('admin.careers.toggle_status');
-    Route::post('/careers/bulk-destroy', [CareerController::class, 'bulk_destroy'])->name('admin.careers.bulk_destroy');
+    Route::resource('careers', CareerController::class);
+
+    Route::post('careers/bulk-destroy', [CareerController::class, 'bulkDestroy'])->name('careers.bulk-destroy');
+    Route::post('careers/toggle-status/{id}', [CareerController::class, 'toggleStatus'])->name('careers.toggle-status');
+
 });
+
 
 Route::fallback(function () {
     return response()->view('website.404', [], 404);
