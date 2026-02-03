@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,14 +12,14 @@ class BlogCategory extends Model
     protected $table = 'blog_categories';
 
     protected $fillable = [
-        'title', 'description', 'image', 'status', 'seo_title', 'seo_image', 'seo_keywords', 'seo_description'
+        'title',
+        'slug',
+        'image',
+        'status',
     ];
-
-    /**
-     * Get the blogs associated with this category.
-     */
-    public function blogs()
+    public function seoDetail()
     {
-        return $this->hasMany(Blog::class, 'category_id', 'id');
+        return $this->hasOne(SeoDetail::class, 'reference_id')
+            ->where('type', 1); // Assuming 3 is for services
     }
 }

@@ -132,26 +132,24 @@
 
                 <!-- About Sections -->
                 @php
-                    $aboutRoutes = [
-                        'admin.expertises.*',
+                    $blogRoutes = [
+                        'admin.blog-categories.*',
                         'admin.operations.*',
-                        'admin.solutions.*',
-                        'admin.benefits.*',
                     ];
                 @endphp
                 <li class="nav-item">
-                    <a class="nav-link menu-link {{ request()->routeIs($aboutRoutes) ? 'active' : '' }}"
-                       href="#sidebarAbout" data-bs-toggle="collapse" role="button"
-                       aria-expanded="{{ request()->routeIs($aboutRoutes) ? 'true' : 'false' }}"
-                       aria-controls="sidebarAbout">
+                    <a class="nav-link menu-link {{ request()->routeIs($blogRoutes) ? 'active' : '' }}"
+                       href="#sidebarBlog" data-bs-toggle="collapse" role="button"
+                       aria-expanded="{{ request()->routeIs($blogRoutes) ? 'true' : 'false' }}"
+                       aria-controls="sidebarBlog">
                         <i data-feather="info" class="icon-dual"></i>
                         <span data-key="t-about">Blog</span>
                     </a>
-                    <div class="collapse menu-dropdown {{ request()->routeIs($aboutRoutes) ? 'show' : '' }}" id="sidebarAbout">
+                    <div class="collapse menu-dropdown {{ request()->routeIs($blogRoutes) ? 'show' : '' }}" id="sidebarBlog">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="#"
-                                   class="nav-link {{ request()->routeIs('admin.expertises.*') ? 'active' : '' }}"
+                                <a href="{{ route('admin.blog-categories.index') }}"
+                                   class="nav-link {{ request()->routeIs('admin.blog-categories.*') ? 'active' : '' }}"
                                    data-key="t-expertises">Blog Category</a>
                             </li>
                             <li class="nav-item">

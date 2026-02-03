@@ -3,24 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Blog extends Model
+class BlogCategory extends Model
 {
+    use SoftDeletes;
+
+    protected $table = 'blog_categories';
+
     protected $fillable = [
-        'title', 'image', 'short_description', 'long_description', 'status',
-        'category_id', 'tags', 'seo_title', 'seo_image', 'seo_keywords',
-        'seo_description', 'written_by', 'published_at', 'is_draft', 'view_count'
+        'title',
+        'slug',
+        'image',
+        'status',
     ];
-
-    public function category()
-    {
-        return $this->belongsTo(BlogCategory::class);
-    }
-
-    public function author()
-    {
-        return $this->belongsTo(User::class, 'author_id'); // Adjust based on your author field
-    }
-
-    
 }

@@ -44,23 +44,14 @@ Route::prefix('blogs')->name('blog.')->controller(BlogController::class)->middle
     Route::get('/search', 'search')->name('search');
     Route::post('/draft', 'draft')->name('draft');
 });
-Route::delete('blogs/{blog}', [BlogController::class, 'destroy'])->name('blog.delete')->middleware('auth');
-Route::get('/blogs/archive/{year}', [BlogController::class, 'archive'])->name('blog.archive')->middleware('auth');
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('blog-categories', BlogCategoryController::class);
+    Route::post('blog-categories/bulk-destroy', [BlogCategoryController::class, 'bulkDestroy'])->name('blog-categories.bulk-destroy');
 
-Route::get('blog-categories', [BlogCategoryController::class, 'index'])->name('blog_category.index')->middleware('auth');
-Route::get('blog-categories/create', [BlogCategoryController::class, 'create'])->name('blog_category.create')->middleware('auth');
-Route::get('blog-categories/edit/{id}', [BlogCategoryController::class, 'edit'])->name('blog_category.edit')->middleware('auth');
-Route::post('blog-categories', [BlogCategoryController::class, 'store'])->name('blog_category.store')->middleware('auth');
-Route::put('blog-categories/{id}', [BlogCategoryController::class, 'update'])->name('blog_category.update')->middleware('auth');
-Route::delete('blog-categories/{id}', [BlogCategoryController::class, 'destroy'])->name('blog_category.destroy')->middleware('auth');
-Route::patch('blog_category/{id}/toggle-status', [BlogCategoryController::class, 'toggleStatus'])->name('blog_category.toggle_status')->middleware('auth');
-Route::post('blog_category/bulk-destroy', [BlogCategoryController::class, 'bulkDestroy'])->name('blog_category.bulk_destroy')->middleware('auth');
-
-
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('blog/category/{category_id}', [BlogController::class, 'category'])->name('blog.category'); // Filter by category
-    Route::get('blog/tag/{tag}', [BlogController::class, 'tag'])->name('blog.tag'); // Filter by tag
+    Route::post(
+        'blog-categories/toggle-status/{id}',
+        [BlogCategoryController::class, 'toggleStatus']
+    )->name('blog-categories.toggle-status');
 });
 
 
