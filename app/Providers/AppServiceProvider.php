@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Repositories\BlogCategoryRepository;
+use App\Repositories\BlogRepository;
 use App\Repositories\CareerRepository;
 use App\Repositories\GalleryRepository;
 use App\Repositories\Interfaces\BlogCategoryRepositoryInterface;
+use App\Repositories\Interfaces\BlogRepositoryInterface;
 use App\Repositories\Interfaces\CareerRepositoryInterface;
 use App\Repositories\Interfaces\GalleryRepositoryInterface;
 use App\Repositories\Interfaces\PartnerRepositoryInterface;
@@ -35,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(GalleryRepositoryInterface::class, GalleryRepository::class);
         $this->app->bind(CareerRepositoryInterface::class, CareerRepository::class);
         $this->app->bind(BlogCategoryRepositoryInterface::class, BlogCategoryRepository::class);
+        $this->app->bind(BlogRepositoryInterface::class, BlogRepository::class);
 
     }
 

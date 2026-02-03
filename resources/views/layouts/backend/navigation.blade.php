@@ -134,7 +134,7 @@
                 @php
                     $blogRoutes = [
                         'admin.blog-categories.*',
-                        'admin.operations.*',
+                        'admin.blogs.*',
                     ];
                 @endphp
                 <li class="nav-item">
@@ -150,12 +150,12 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.blog-categories.index') }}"
                                    class="nav-link {{ request()->routeIs('admin.blog-categories.*') ? 'active' : '' }}"
-                                   data-key="t-expertises">Blog Category</a>
+                                   data-key="t-blog-categories">Blog Category</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#"
-                                   class="nav-link {{ request()->routeIs('admin.operations.*') ? 'active' : '' }}"
-                                   data-key="t-operations">Blog List</a>
+                                <a href="{{ route('admin.blogs.index') }}"
+                                   class="nav-link {{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}"
+                                   data-key="t-blogs">Blog List</a>
                             </li>
 
                         </ul>

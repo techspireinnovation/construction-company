@@ -3,176 +3,71 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Partner;
+use App\Http\Requests\Blog\StoreRequest;
+use App\Http\Requests\Blog\UpdateRequest;
+use App\Models\BlogCategory;
+use App\Repositories\Interfaces\BlogRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
 
 class BlogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
+    protected BlogRepositoryInterface $blogRepository;
+
+    public function __construct(BlogRepositoryInterface $blogRepository)
     {
-        $query = Partner::query();
-
-        // Handle search
-        if ($search = $request->query('search')) {
-            $query->where('name', 'like', '%' . $search . '%');
-        }
-
-        $partners = $query->paginate(10);
-
-        return view('admin.partners.index', compact('partners'));
+        $this->blogRepository = $blogRepository;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function index()
+    {
+        $blogs = $this->blogRepository->all();
+        return view('admin.blogs.index', compact('blogs'));
+    }
+
+
     public function create()
     {
-        return view('admin.partners.create');
+        $categories = BlogCategory::all(); // fetch all categories
+        return view('admin.blogs.create', compact('categories'));
     }
 
-  
-
-
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'status' => 'required|boolean',
-        ]);
-
-      
-            try {
-                Log::debug('Store validated data:', $validated);
-                $data = $validated;
-    
-                // Handle image upload
-                if ($request->hasFile('image')) {
-                    $data['image'] = $request->file('image')->store('partners', 'public');
-                }
-    
-                Partner::create($data);
-
-            return redirect()->route('admin.partners.index')->with('success', 'Partners created successfully!');
-        } catch (\Exception $e) {
-            \Log::error('Partners creation failed: ' . $e->getMessage());
-            return back()->withInput()->with('error', 'Failed to create category.');
-        }
+        $this->blogRepository->store($request->validated());
+        return redirect()->route('admin.blogs.index')->with('success', 'Blog created successfully');
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
-        $partner = Partner::findOrFail($id);
-        return view('admin.partners.edit', compact('partner'));
+        $blog = $this->blogRepository->find($id);
+        $categories = BlogCategory::all(); // fetch all categories
+        return view('admin.blogs.edit', compact('blog', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+
+    public function update(UpdateRequest $request, $id)
     {
-        $partner = Partner::findOrFail($id);
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'status' => 'boolean',
-        ]);
-
-        try {
-            Log::debug('Update validated data:', $validated);
-            $data = $validated;
-            $data['status'] = $request->has('status') ? 1 : 0;
-
-            // Handle image upload
-            if ($request->hasFile('image')) {
-                if ($partner->image && Storage::disk('public')->exists($partner->image)) {
-                    Storage::disk('public')->delete($partner->image);
-                }
-                $data['image'] = $request->file('image')->store('partners', 'public');
-            }
-
-            $partner->update($data);
-
-            return response()->json(['success' => true, 'message' => 'Partner updated successfully']);
-        } catch (\Exception $e) {
-            Log::error('Partner update failed: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Failed to update partner.'], 500);
-        }
+        $this->blogRepository->update($request->validated(), $id);
+        return redirect()->route('admin.blogs.index')->with('success', 'Blog updated successfully');
     }
 
-    /**
-     * Toggle the status of the specified resource.
-     */
-    public function toggleStatus(Request $request, $id)
-    {
-        $partner = Partner::findOrFail($id);
-        $validated = $request->validate([
-            'status' => 'boolean',
-        ]);
-
-        try {
-            Log::debug('Toggle status validated data:', $validated);
-            $newStatus = $request->has('status') ? 1 : 0;
-            $partner->update(['status' => $newStatus]);
-
-            return response()->json(['success' => true, 'message' => 'Status updated successfully']);
-        } catch (\Exception $e) {
-            Log::error('Status update failed: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Failed to update status.'], 500);
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage (soft delete).
-     */
     public function destroy($id)
     {
-        $partner = Partner::findOrFail($id);
-        try {
-            if ($partner->image && Storage::disk('public')->exists($partner->image)) {
-                Storage::disk('public')->delete($partner->image);
-            }
-            $partner->delete();
-
-            return response()->json(['success' => true, 'message' => 'Partner deleted successfully']);
-        } catch (\Exception $e) {
-            Log::error('Partner deletion failed: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Failed to delete partner.'], 500);
-        }
+        $this->blogRepository->delete($id);
+        return redirect()->route('admin.blogs.index')->with('success', 'Blog deleted successfully');
     }
 
-    /**
-     * Remove multiple resources from storage (soft delete).
-     */
     public function bulkDestroy(Request $request)
     {
-        $validated = $request->validate([
-            'ids' => 'required|string',
-        ]);
+        $request->validate(['ids' => 'required|string']);
+        $ids = array_map('intval', explode(',', $request->ids));
+        $this->blogRepository->bulkDestroy($ids);
+        return redirect()->route('admin.blogs.index')->with('success', 'Selected blogs deleted successfully');
+    }
 
-        try {
-            $ids = explode(',', $validated['ids']);
-            $partners = Partner::whereIn('id', $ids)->get();
-            foreach ($partners as $partner) {
-                if ($partner->image && Storage::disk('public')->exists($partner->image)) {
-                    Storage::disk('public')->delete($partner->image);
-                }
-                $partner->delete();
-            }
-
-            return response()->json(['success' => true, 'message' => count($ids) . ' partner(s) deleted successfully']);
-        } catch (\Exception $e) {
-            Log::error('Bulk partner deletion failed: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Failed to delete partners.'], 500);
-        }
+    public function toggleStatus($id)
+    {
+        $this->blogRepository->toggleStatus($id);
+        return redirect()->route('admin.blogs.index')->with('success', 'Status updated successfully');
     }
 }

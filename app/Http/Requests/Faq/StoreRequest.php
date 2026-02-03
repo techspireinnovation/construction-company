@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Gallery;
+namespace App\Http\Requests\Faq;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -14,9 +15,13 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:100',
-            'images' => 'required|array|min:1',
-            'images.*' => 'image|mimes:jpeg,jpg,png,webp|max:2048',
+            'question' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('faqs', 'question'),
+            ],
+            'answer' => 'required|string',
             'status' => 'nullable|boolean',
         ];
     }
@@ -24,11 +29,10 @@ class StoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.required' => 'Please enter gallery title.',
-            'images.required' => 'Please upload at least one image.',
-            'images.*.image' => 'Each file must be an image.',
-            'images.*.mimes' => 'Images must be jpeg, jpg, png, or webp.',
-            'images.*.max' => 'Each image must not exceed 2MB.',
+            'question.required' => 'Please enter the question.',
+            'question.max' => 'Question cannot exceed 255 characters.',
+            'question.unique' => 'This question already exists.',
+            'answer.required' => 'Please enter the answer.',
         ];
     }
 }

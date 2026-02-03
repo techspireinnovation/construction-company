@@ -88,7 +88,7 @@
 
                                     <!-- Long Description using reusable component -->
                                     <div class="col-md-12">
-                                     
+
 
 <x-rich-text-editor
 name="description"
