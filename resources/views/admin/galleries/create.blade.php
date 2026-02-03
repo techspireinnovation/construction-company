@@ -68,11 +68,16 @@
                                     <div class="col-md-12 mb-3">
                                         <label class="form-label">Gallery Images</label>
                                         <input type="file"
-                                               id="gallery-images-input"
-                                               name="images[]"
-                                               class="form-control @error('images') is-invalid @enderror"
-                                               multiple
-                                               accept="image/*">
+       id="gallery-images-input"
+       name="images[]"
+       class="form-control"
+       multiple
+       accept="image/*">
+
+<div id="gallery-preview-container"
+     class="d-flex flex-wrap gap-2 mt-2"
+     style="display:none;"></div>
+
 
                                         @error('images')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         @error('images.*')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -111,70 +116,17 @@
 @endsection
 
 @section('script')
+@section('script')
+<script src="{{ asset('js/multi-image-uploader.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const input = document.getElementById('gallery-images-input');
-    const previewContainer = document.getElementById('gallery-preview-container');
-
-    let selectedFiles = new DataTransfer();
-
-    input.addEventListener('change', function () {
-        previewContainer.innerHTML = '';
-        selectedFiles = new DataTransfer();
-
-        if (!input.files.length) {
-            previewContainer.style.display = 'none';
-            return;
-        }
-
-        previewContainer.style.display = 'flex';
-
-        Array.from(input.files).forEach((file, index) => {
-            if (!file.type.startsWith('image/')) return;
-
-            selectedFiles.items.add(file);
-
-            const reader = new FileReader();
-            reader.onload = e => {
-                const wrapper = document.createElement('div');
-                wrapper.classList.add('position-relative', 'border', 'rounded', 'p-1');
-                wrapper.style.width = '150px';
-
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.classList.add('rounded', 'w-100');
-                img.style.height = '120px';
-                img.style.objectFit = 'cover';
-
-                const removeBtn = document.createElement('button');
-                removeBtn.type = 'button';
-                removeBtn.innerHTML = '&times;';
-                removeBtn.classList.add(
-                    'btn', 'btn-danger', 'btn-sm',
-                    'position-absolute', 'top-0', 'end-0'
-                );
-
-                removeBtn.addEventListener('click', () => {
-                    selectedFiles.items.remove(index);
-                    input.files = selectedFiles.files;
-                    wrapper.remove();
-
-                    if (!selectedFiles.files.length) {
-                        previewContainer.style.display = 'none';
-                    }
-                });
-
-                wrapper.appendChild(img);
-                wrapper.appendChild(removeBtn);
-                previewContainer.appendChild(wrapper);
-            };
-
-            reader.readAsDataURL(file);
-        });
-
-        input.files = selectedFiles.files;
+    new MultiImageUploader({
+        input: '#gallery-images-input',
+        preview: '#gallery-preview-container'
     });
 });
 </script>
+@endsection
+
 
 @endsection

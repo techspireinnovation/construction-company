@@ -37,7 +37,7 @@
                                 <div class="row g-4 mb-3">
                                     <div class="col-sm-auto">
                                         <a href="{{ route('admin.blogs.create') }}" class="btn btn-primary">
-                                            <i class="ri-add-line me-1"></i> Add Blog
+                                            <i class="ri-add-line me-1"></i> Add
                                         </a>
 
                                         <button

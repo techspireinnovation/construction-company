@@ -57,53 +57,7 @@
         }
 
     </style>
-   <style>
-    /* General style for the rating container */
-    .rating {
-        display: flex;
-        flex-direction: row-reverse; /* Stars go from right to left */
-        justify-content: left;
-        gap: 5px; /* Spacing between stars */
-    }
 
-    /* Hide the radio buttons */
-    .rating > input {
-        display: none;
-    }
-
-    /* Default star style */
-    .rating > label {
-        font-size: 30px; /* Adjusts star size */
-        font-weight: 300;
-        color: #d3d3d3; /* Gray color for default stars */
-        cursor: pointer;
-        transition: color 0.2s ease-in-out;
-    }
-
-    /* Color for hover effect */
-    .rating > label:hover,
-    .rating > label:hover ~ label {
-        color: #FFD600; /* Bright yellow for hover */
-    }
-
-    /* Highlight checked star and all previous stars */
-    .rating > input:checked ~ label {
-        color: #FFD600; /* Bright yellow for selected stars */
-    }
-
-    /* Persistent color when hovering a selected star */
-    .rating:hover > input:checked ~ label {
-        color: #ffc107; /* Slightly lighter yellow */
-    }
-
-    /* Add consistent padding or margin */
-    .rating {
-        margin-top: 15px;
-    }
-    .brand-link{
-        overflow: hidden;
-    }
-</style>
 @stack('css')
 
     @yield('style')

@@ -132,77 +132,28 @@
     </div>
 </div>
 @endsection
-
 @section('script')
+
+{{-- Reusable multi image uploader --}}
+<script src="{{ asset('js/multi-image-uploader.js') }}"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    /* Remove existing images */
+    /* Remove existing images (soft remove via hidden input removal) */
     document.querySelectorAll('.remove-existing-image').forEach(btn => {
         btn.addEventListener('click', function () {
-            const wrapper = this.closest('div');
-            wrapper.remove();
+            this.closest('.position-relative').remove();
         });
     });
 
-    /* New image preview + remove */
-    const input = document.getElementById('gallery-images-input');
-    const previewContainer = document.getElementById('gallery-preview-container');
-    let selectedFiles = new DataTransfer();
-
-    input.addEventListener('change', function () {
-        previewContainer.innerHTML = '';
-        selectedFiles = new DataTransfer();
-
-        if (!input.files.length) {
-            previewContainer.style.display = 'none';
-            return;
-        }
-
-        previewContainer.style.display = 'flex';
-
-        Array.from(input.files).forEach((file, index) => {
-            if (!file.type.startsWith('image/')) return;
-
-            selectedFiles.items.add(file);
-
-            const reader = new FileReader();
-            reader.onload = e => {
-                const wrapper = document.createElement('div');
-                wrapper.classList.add('position-relative', 'border', 'rounded', 'p-1');
-                wrapper.style.width = '150px';
-
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.classList.add('rounded', 'w-100');
-                img.style.height = '120px';
-                img.style.objectFit = 'cover';
-
-                const removeBtn = document.createElement('button');
-                removeBtn.type = 'button';
-                removeBtn.innerHTML = '&times;';
-                removeBtn.classList.add('btn','btn-danger','btn-sm','position-absolute','top-0','end-0');
-
-                removeBtn.addEventListener('click', () => {
-                    selectedFiles.items.remove(index);
-                    input.files = selectedFiles.files;
-                    wrapper.remove();
-                    if (!selectedFiles.files.length) {
-                        previewContainer.style.display = 'none';
-                    }
-                });
-
-                wrapper.appendChild(img);
-                wrapper.appendChild(removeBtn);
-                previewContainer.appendChild(wrapper);
-            };
-
-            reader.readAsDataURL(file);
-        });
-
-        input.files = selectedFiles.files;
+    /* Reusable new image uploader */
+    new MultiImageUploader({
+        input: '#gallery-images-input',
+        preview: '#gallery-preview-container'
     });
 
 });
 </script>
+
 @endsection

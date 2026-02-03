@@ -27,7 +27,7 @@ class BlogController extends Controller
 
     public function create()
     {
-        $categories = BlogCategory::all(); // fetch all categories
+        $categories = BlogCategory::where('status', 1)->get();
         return view('admin.blogs.create', compact('categories'));
     }
 
@@ -40,7 +40,7 @@ class BlogController extends Controller
     public function edit($id)
     {
         $blog = $this->blogRepository->find($id);
-        $categories = BlogCategory::all(); // fetch all categories
+        $categories = BlogCategory::where('status', 1)->get();
         return view('admin.blogs.edit', compact('blog', 'categories'));
     }
 
