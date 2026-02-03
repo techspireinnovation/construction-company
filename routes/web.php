@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\PortfolioCategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\HomeController;
@@ -43,6 +44,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     $resources = [
         'blogs' => BlogController::class,
         'blog-categories' => BlogCategoryController::class,
+        'portfolio-categories' => PortfolioCategoryController::class,
         'partners' => PartnerController::class,
         'galleries' => GalleryController::class,
         'services' => ServiceController::class,

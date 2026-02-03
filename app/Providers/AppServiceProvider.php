@@ -11,11 +11,13 @@ use App\Repositories\Interfaces\BlogRepositoryInterface;
 use App\Repositories\Interfaces\CareerRepositoryInterface;
 use App\Repositories\Interfaces\GalleryRepositoryInterface;
 use App\Repositories\Interfaces\PartnerRepositoryInterface;
+use App\Repositories\Interfaces\PortfolioCategoryRepositoryInterface;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
 use App\Repositories\Interfaces\TeamRepositoryInterface;
 use App\Repositories\Interfaces\TestimonialRepositoryInterface;
 use App\Repositories\Interfaces\WhyChooseUsRepositoryInterface;
 use App\Repositories\PartnerRepository;
+use App\Repositories\PortfolioCategoryRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\TeamRepository;
 use App\Repositories\TestimonialRepository;
@@ -38,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CareerRepositoryInterface::class, CareerRepository::class);
         $this->app->bind(BlogCategoryRepositoryInterface::class, BlogCategoryRepository::class);
         $this->app->bind(BlogRepositoryInterface::class, BlogRepository::class);
+        $this->app->bind(PortfolioCategoryRepositoryInterface::class, PortfolioCategoryRepository::class);
 
     }
 

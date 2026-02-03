@@ -43,15 +43,7 @@
 
                 <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Content Management</span></li>
 
-                <!-- Page Types -->
 
-
-                <!-- Pages -->
-
-
-                <!-- Sliders -->
-
-                <!-- Settings -->
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}"
                        href="{{ route('admin.site_setting.index') }}">
@@ -130,7 +122,6 @@
                     </a>
                 </li>
 
-                <!-- About Sections -->
                 @php
                     $blogRoutes = [
                         'admin.blog-categories.*',
@@ -162,64 +153,36 @@
                     </div>
                 </li>
 
-                {{-- @php
-    $blogRoutes = [
-        'blog.index', 'blog.create', 'blog.edit',
-        'blog_category.index', 'blog_category.create', 'blog_category.edit',
-        'blog_category.store', 'blog_category.update', 'blog_category.destroy',
-        'blog_category.toggle_status', 'blog_category.bulk_destroy',
-    ];
-@endphp
 
-<li class="nav-item">
-    <a class="nav-link menu-link {{ request()->routeIs($blogRoutes) ? 'active' : '' }}"
-       href="#sidebarPages" data-bs-toggle="collapse" role="button"
-       aria-expanded="{{ request()->routeIs($blogRoutes) ? 'true' : 'false' }}"
-       aria-controls="sidebarPages">
-        <i data-feather="command" class="icon-dual"></i> <span data-key="t-pages">Pages</span>
-    </a>
-    <div class="collapse menu-dropdown {{ request()->routeIs($blogRoutes) ? 'show' : '' }}" id="sidebarPages">
-        <ul class="nav nav-sm flex-column">
+                @php
+                $portfolioRoutes = [
+                    'admin.portfolio-categories.*',
+                    'admin.portfolios.*',
+                ];
+            @endphp
             <li class="nav-item">
-                <a href="{{ route('admin.pages.index') }}" class="nav-link" data-key="t-timeline">Pages Content</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs($blogRoutes) ? 'active' : '' }}"
-                   href="#sidebarBlogs" data-bs-toggle="collapse" role="button"
-                   aria-expanded="{{ request()->routeIs($blogRoutes) ? 'true' : 'false' }}"
-                   aria-controls="sidebarBlogs">
-                    <span data-key="t-blogs">Blogs</span>
+                <a class="nav-link menu-link {{ request()->routeIs($portfolioRoutes) ? 'active' : '' }}"
+                   href="#sidebarPortfolio" data-bs-toggle="collapse" role="button"
+                   aria-expanded="{{ request()->routeIs($portfolioRoutes) ? 'true' : 'false' }}"
+                   aria-controls="sidebarPortfolio">
+                    <i data-feather="briefcase" class="icon-dual"></i>
+                    <span data-key="t-portfolio">Portfolio</span>
                 </a>
-                <div class="collapse menu-dropdown {{ request()->routeIs($blogRoutes) ? 'show' : '' }}" id="sidebarBlogs">
+                <div class="collapse menu-dropdown {{ request()->routeIs($portfolioRoutes) ? 'show' : '' }}" id="sidebarPortfolio">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="{{ route('blog.index') }}"
-                               class="nav-link {{ request()->routeIs(['blog.index', 'blog.create', 'blog.edit']) ? 'active' : '' }}"
-                               data-key="t-list-view">Blog List</a>
+                            <a href="{{ route('admin.portfolio-categories.index') }}"
+                               class="nav-link {{ request()->routeIs('admin.portfolio-categories.*') ? 'active' : '' }}"
+                               data-key="t-portfolio-categories">Portfolio Categories</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('blog_category.index') }}"
-                               class="nav-link {{ request()->routeIs([
-                                    'blog_category.index', 'blog_category.create', 'blog_category.edit',
-                                    'blog_category.store', 'blog_category.update', 'blog_category.destroy',
-                                    'blog_category.toggle_status', 'blog_category.bulk_destroy'
-                                ]) ? 'active' : '' }}"
-                               data-key="t-grid-view">Blog Categories</a>
+                            <a href="#"
+                               class="nav-link {{ request()->routeIs('admin.portfolios.*') ? 'active' : '' }}"
+                               data-key="t-portfolios">Portfolio List</a>
                         </li>
                     </ul>
                 </div>
             </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link" data-key="t-team">Team</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link" data-key="t-faqs">FAQs</a>
-            </li>
-        </ul>
-    </div>
-</li> --}}
-
-
 
 
             </ul>
