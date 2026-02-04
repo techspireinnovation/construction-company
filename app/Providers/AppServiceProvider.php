@@ -12,6 +12,7 @@ use App\Repositories\Interfaces\BlogRepositoryInterface;
 use App\Repositories\Interfaces\CareerRepositoryInterface;
 use App\Repositories\Interfaces\GalleryRepositoryInterface;
 use App\Repositories\Interfaces\HeroSectionRepositoryInterface;
+use App\Repositories\Interfaces\PageRepositoryInterface;
 use App\Repositories\Interfaces\PartnerRepositoryInterface;
 use App\Repositories\Interfaces\PortfolioCategoryRepositoryInterface;
 use App\Repositories\Interfaces\PortfolioRepositoryInterface;
@@ -20,6 +21,7 @@ use App\Repositories\Interfaces\SiteSettingRepositoryInterface;
 use App\Repositories\Interfaces\TeamRepositoryInterface;
 use App\Repositories\Interfaces\TestimonialRepositoryInterface;
 use App\Repositories\Interfaces\WhyChooseUsRepositoryInterface;
+use App\Repositories\PageRepository;
 use App\Repositories\PartnerRepository;
 use App\Repositories\PortfolioCategoryRepository;
 use App\Repositories\PortfolioRepository;
@@ -50,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PortfolioRepositoryInterface::class, PortfolioRepository::class);
         $this->app->bind(SiteSettingRepositoryInterface::class, SiteSettingRepository::class);
         $this->app->bind(HeroSectionRepositoryInterface::class, HeroSectionRepository::class);
-
+        $this->app->bind(PageRepositoryInterface::class, PageRepository::class);
     }
 
     /**

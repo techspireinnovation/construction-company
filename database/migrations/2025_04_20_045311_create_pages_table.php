@@ -12,10 +12,13 @@ return new class extends Migration {
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
-            $table->tinyInteger('type')->unique()->comment('1=home, 2=about us, 3=services, 4=team, 5= testimonial, 6=portfolio, 7=blog, 8=career, 9=contact');
+            $table->tinyInteger('type')->unique()->comment('1=home, 2=about us, 3=services, 4=team, 5= testimonial, 6=gallery, 7=portfolio, 8=blog, 9=career, 10=contact');
             $table->string('banner_image')->nullable();
+            $table->integer('order_no')->default(0);
             $table->tinyInteger('status')->default(0)->comment('0=active, 1=inactive');
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

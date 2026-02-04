@@ -191,6 +191,14 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}"
+                       href="{{ route('admin.pages.index') }}" data-nav-link>
+                        <i data-feather="file-text" class="icon-dual" data-nav-icon></i>
+                        <span data-key="t-pages-seo" data-nav-text>Pages SEO</span>
+                    </a>
+                </li>
+
 <!-- Site Config -->
 <li class="nav-item">
     <a class="nav-link menu-link {{ request()->routeIs('admin.site-settings.*') ? 'active' : '' }}"

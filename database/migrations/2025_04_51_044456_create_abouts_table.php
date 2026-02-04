@@ -16,15 +16,15 @@ return new class extends Migration
             $table->string('title', 100);
             $table->text('description');
             $table->json('mission')
-            ->comment('image, content');
+                  ->comment('image, content');
             $table->json('vision')
-            ->comment('image, content');
-            $table->unsignedInteger('years_of_experience');
-            $table->unsignedInteger('no_of_projects');
-            $table->unsignedInteger('no_of_employees');
-            $table->unsignedInteger('no_of_satisfied_clients');
-            $table->timestamps();
+                  ->comment('image, content');
 
+            // Dynamic stats
+            $table->json('stats')
+                  ->comment('years_of_experience, no_of_projects, no_of_employees, no_of_satisfied_clients');
+
+            $table->timestamps();
         });
     }
 

@@ -2,50 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Page extends Model
 {
-    use HasFactory;
+    use SoftDeletes;
+
+    protected $table = 'pages';
 
     protected $fillable = [
-        'title',
-        'slug',
-        'page_type_id',
-        'content',
+        'type',
+        'banner_image',
         'status',
-        'menu',
-        'image',
-        'seo_title',
-        'seo_keywords',
-        'seo_description',
-        'seo_image',
-        'created_by',
-        'page_type',
+        'order_no',
+
     ];
 
-    protected $casts = [
-        'status' => 'boolean',
-        'menu' => 'boolean',
-        'image' => 'array', // JSON column
-    ];
-
-    public function sections()
+    public function seoDetail()
     {
-        return $this->hasMany(PageContent::class);
-    }
-
-    public function creator()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function pageType()
-    {
-        return $this->belongsTo(PageType::class, 'page_type_id');
+        return $this->hasOne(SeoDetail::class, 'reference_id')
+            ->where('type', 6); // 6 = pages
     }
 }
-
-
-
