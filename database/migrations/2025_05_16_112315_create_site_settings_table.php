@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,23 +16,19 @@ return new class extends Migration
             $table->string('secondary_email', 100)->nullable();
             $table->string('address');
             $table->text('embedded_map');
-            $table->string('logo_image');
+            $table->string('logo_image')->nullable();
             $table->string('footer_text');
-            $table->string('fav_icon_image');
+            $table->string('fav_icon_image')->nullable();
             $table->string('instagram_link')->nullable();
             $table->string('facebook_link')->nullable();
             $table->string('whatsapp_link')->nullable();
             $table->string('linkedin_link')->nullable();
-            $table->timestamps(); 
-
-           
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        
-
         Schema::dropIfExists('site_settings');
     }
 };

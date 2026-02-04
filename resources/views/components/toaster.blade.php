@@ -1,127 +1,80 @@
 {{-- resources/views/components/toaster.blade.php --}}
-@if ($errors->any() || session()->has('success') || session()->has('error') || session()->has('warning') || session()->has('info'))
-    <div id="toast-container" class="toast-container">
-        {{-- Validation Errors --}}
-        @if ($errors->any())
-            @foreach ($errors->all() as $index => $error)
-                <div class="toast toast-error" data-index="{{ $index }}">
-                    <div class="toast-content">
-                        <i class="fas fa-exclamation-circle toast-icon"></i>
-                        <div class="toast-message">
-                            <strong>Validation Error:</strong> {{ $error }}
-                        </div>
-                    </div>
-                    <button class="toast-close">&times;</button>
-                </div>
-            @endforeach
-        @endif
+@props([
+    'position' => 'top-0 end-0',  // Changed from 'top-end' to Bootstrap 5 classes
+    'timeout' => 5000,
+])
 
-        {{-- Session Messages --}}
-        @php
-            $sessionTypes = [
-                'success' => ['icon' => 'fa-check-circle', 'color' => 'success'],
-                'error' => ['icon' => 'fa-exclamation-circle', 'color' => 'error'],
-                'warning' => ['icon' => 'fa-exclamation-triangle', 'color' => 'warning'],
-                'info' => ['icon' => 'fa-info-circle', 'color' => 'info'],
-                'primary' => ['icon' => 'fa-bell', 'color' => 'primary'],
-                'secondary' => ['icon' => 'fa-bell', 'color' => 'secondary'],
-                'light' => ['icon' => 'fa-bell', 'color' => 'light'],
-                'payment-error' => ['icon' => 'fa-credit-card', 'color' => 'error'],
-            ];
-        @endphp
+@if(session()->hasAny(['success', 'error', 'warning', 'info']) || $errors->any())
+<div class="toast-container position-fixed p-3" style="z-index: 9999; {{ $position === 'top-0 end-0' ? 'top: 0; right: 0;' : 'top: 0; left: 0;' }}">
 
-        @foreach($sessionTypes as $type => $config)
-            @if(session()->has($type))
-                <div class="toast toast-{{ $config['color'] }}">
-                    <div class="toast-content">
-                        <i class="fas {{ $config['icon'] }} toast-icon"></i>
-                        <div class="toast-message">{{ session($type) }}</div>
-                    </div>
-                    <button class="toast-close">&times;</button>
+    @if(session('success'))
+        <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="{{ $timeout }}">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="ri-checkbox-circle-fill me-2"></i>
+                    {{ session('success') }}
                 </div>
-            @endif
-        @endforeach
-    </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="{{ $timeout }}">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="ri-error-warning-fill me-2"></i>
+                    {{ session('error') }}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    @endif
+
+    @if(session('warning'))
+        <div class="toast align-items-center text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="{{ $timeout }}">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="ri-alert-fill me-2"></i>
+                    {{ session('warning') }}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    @endif
+
+    @if(session('info'))
+        <div class="toast align-items-center text-bg-info border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="{{ $timeout }}">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="ri-information-fill me-2"></i>
+                    {{ session('info') }}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    @endif
+
+    @if($errors->any())
+    @foreach($errors->all() as $error)
+        <div class="toast align-items-center text-bg-danger border-0 mb-2"
+             role="alert"
+             aria-live="assertive"
+             aria-atomic="true"
+             data-bs-delay="5000">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="ri-error-warning-fill me-2"></i>
+                    {{ $error }}
+                </div>
+                <button type="button"
+                        class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    @endforeach
 @endif
 
-<style>
-/* Keep your existing styles */
-</style>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Only initialize if toasts exist
-    const toastContainer = document.getElementById('toast-container');
-    if (!toastContainer) return;
-
-    const toasts = document.querySelectorAll('.toast');
-
-    // Set animation delays
-    toasts.forEach((toast, index) => {
-        toast.style.setProperty('--toast-index', index);
-
-        // Auto remove after 5 seconds
-        const timeoutId = setTimeout(() => {
-            removeToast(toast);
-        }, 5000);
-
-        // Store timeout ID for cleanup
-        toast.dataset.timeoutId = timeoutId;
-
-        // Click to dismiss
-        const closeBtn = toast.querySelector('.toast-close');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                clearTimeout(timeoutId);
-                removeToast(toast);
-            });
-        }
-
-        // Click toast to dismiss (optional)
-        toast.addEventListener('click', function(e) {
-            if (!e.target.classList.contains('toast-close')) {
-                clearTimeout(this.dataset.timeoutId);
-                removeToast(this);
-            }
-        });
-
-        // Hover pause
-        toast.addEventListener('mouseenter', function() {
-            clearTimeout(this.dataset.timeoutId);
-        });
-
-        toast.addEventListener('mouseleave', function() {
-            clearTimeout(this.dataset.timeoutId);
-            this.dataset.timeoutId = setTimeout(() => {
-                removeToast(this);
-            }, 2000);
-        });
-    });
-
-    function removeToast(toastElement) {
-        if (!toastElement.classList.contains('hide')) {
-            toastElement.classList.add('hide');
-            setTimeout(() => {
-                if (toastElement.parentNode) {
-                    toastElement.remove();
-                    // If container is empty, remove it
-                    if (toastContainer.children.length === 0) {
-                        toastContainer.remove();
-                    }
-                }
-            }, 300);
-        }
-    }
-
-    // Close all toasts when clicking outside (optional)
-    document.addEventListener('click', function(e) {
-        if (toastContainer && !toastContainer.contains(e.target) && !e.target.closest('.toast')) {
-            document.querySelectorAll('.toast').forEach(toast => {
-                clearTimeout(toast.dataset.timeoutId);
-                removeToast(toast);
-            });
-        }
-    });
-});
-</script>
+</div>
+@endif

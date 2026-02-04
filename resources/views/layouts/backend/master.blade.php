@@ -37,8 +37,8 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+{{--
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.6.0/bootstrap-tagsinput.css"
@@ -73,6 +73,7 @@
         @include('layouts.backend.footer')
     </div>
     @yield('script')
+    @stack('scripts')
 
     <!-- JAVASCRIPT -->
     <script src="{{ asset('Backend/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -132,7 +133,7 @@
 
     </script>
 
-<script>
+{{-- <script>
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -170,7 +171,7 @@
             toastr.error("{{ $error }}", "Error");
         @endforeach
 @endif
-</script>
+</script> --}}
     @stack('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.6.0/bootstrap-tagsinput.min.js"
     integrity="sha512-SXJkO2QQrKk2amHckjns/RYjUIBCI34edl9yh0dzgw3scKu0q4Bo/dUr+sGHMUha0j9Q1Y7fJXJMaBi4xtyfDw=="
@@ -189,6 +190,7 @@
         };
     });
 </script>
+<script src="{{ asset('js/toaster.js') }}"></script>
 
     <!-- App js -->
 </body>

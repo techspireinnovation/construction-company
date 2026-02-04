@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('hero_sections', function (Blueprint $table) {
             $table->increments('id');
             $table->tinyInteger('type')->comment('1=images, 2=video');
-            $table->json('hero_with_video')
-            ->comment('title, content, video');
-            $table->json('hero_with_images')
-            ->comment('Array of {title, content, image}');
+            $table->json('hero_with_video')->nullable()
+                ->comment('title, content, video');
+            $table->json('hero_with_images')->nullable()
+                ->comment('Array of {title, content, image}');
             $table->timestamps();
         });
     }

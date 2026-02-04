@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SiteSetting extends Model
 {
+    use HasFactory;
+
     protected $table = 'site_settings';
 
     protected $fillable = [
@@ -16,13 +19,12 @@ class SiteSetting extends Model
         'secondary_email',
         'address',
         'embedded_map',
-        'footer_text',
         'logo_image',
+        'footer_text',
         'fav_icon_image',
-        'facebook_link',
         'instagram_link',
+        'facebook_link',
         'whatsapp_link',
         'linkedin_link',
     ];
-
 }

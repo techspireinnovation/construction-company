@@ -46,13 +46,11 @@
                     <i class="ri-more-fill" data-title-icon></i>
                     <span data-key="t-pages">Content Management</span>
                 </li>
-
-                <!-- Site Config -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}"
-                       href="{{ route('admin.site_setting.index') }}" data-nav-link>
+                    <a class="nav-link menu-link {{ request()->routeIs('admin.hero-sections.*') ? 'active' : '' }}"
+                       href="{{ route('admin.hero-sections.index') }}" data-nav-link>
                         <i data-feather="settings" class="icon-dual" data-nav-icon></i>
-                        <span data-key="t-settings" data-nav-text>Site Config</span>
+                        <span data-key="t-settings" data-nav-text>Hero Section</span>
                     </a>
                 </li>
 
@@ -193,6 +191,14 @@
                         </ul>
                     </div>
                 </li>
+<!-- Site Config -->
+<li class="nav-item">
+    <a class="nav-link menu-link {{ request()->routeIs('admin.site-settings.*') ? 'active' : '' }}"
+       href="{{ route('admin.site-settings.index') }}" data-nav-link>
+        <i data-feather="settings" class="icon-dual" data-nav-icon></i>
+        <span data-key="t-settings" data-nav-text>Site Config</span>
+    </a>
+</li>
 
             </ul>
         </div>

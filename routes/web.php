@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\HeroSectionController;
 use App\Http\Controllers\Backend\PortfolioCategoryController;
 use App\Http\Controllers\Backend\PortfolioController;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         'teams' => TeamController::class,
         'faqs' => FaqController::class,
         'careers' => CareerController::class,
+        'site-settings' => SiteSettingController::class,
     ];
 
     foreach ($resources as $slug => $controller) {
@@ -68,7 +70,14 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
             Route::post('teams/update-order', [TeamController::class, 'updateOrder'])->name('teams.update-order');
         }
     }
-
+    Route::prefix('hero-sections')->name('hero-sections.')->controller(HeroSectionController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/edit', 'edit')->name('edit'); // No ID parameter
+        Route::put('/update', 'update')->name('update'); // No ID parameter\
+        
+    });
     # Site Settings
     Route::prefix('site_setting')->name('site_setting.')->controller(SiteSettingController::class)->group(function () {
         Route::get('/', 'index')->name('index');
