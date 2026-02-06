@@ -41,30 +41,15 @@
                                     <!-- Page Type -->
                                     <div class="col-md-6">
                                         <label class="form-label">Page</label>
-                                        <select name="type" class="form-select @error('type') is-invalid @enderror">
-                                            <option value="">Select Page</option>
-                                            @php
-                                                $types = [
-                                                    1 => 'Home',
-                                                    2 => 'About Us',
-                                                    3 => 'Services',
-                                                    4 => 'Team',
-                                                    5 => 'Testimonial',
-                                                    6 => 'Gallery',
-                                                    7 => 'Project',
-                                                    8 => 'Blog',
-                                                    9 => 'Career',
-                                                    10 => 'Contact'
-                                                ];
-                                            @endphp
-                                            @foreach($types as $key => $label)
-                                                <option value="{{ $key }}" {{ old('type', $page->type) == $key ? 'selected' : '' }}>
-                                                    {{ $label }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('type')<div class="invalid-feedback">{{ $message }}</div>@enderror
+
+                                        <input type="text"
+                                               class="form-control"
+                                               value="{{ $types[$page->type] ?? 'Unknown' }}"
+                                               disabled>
+
+                                        <input type="hidden" name="type" value="{{ $page->type }}">
                                     </div>
+
 
                                     <!-- Banner Image -->
                                     <div class="col-md-6">

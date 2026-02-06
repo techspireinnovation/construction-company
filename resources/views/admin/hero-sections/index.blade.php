@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="main-content">
-    @include('components.toaster')
+    @include('_message')
     <div class="page-content">
         <div class="container-fluid">
 

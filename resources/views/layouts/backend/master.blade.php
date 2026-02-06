@@ -92,6 +92,12 @@
     <!-- App js -->
     <script src="{{ asset('Backend/assets/js/app.js') }}"></script>
 
+    <script src="{{ asset('Backend/assets/libs/sortablejs/Sortable.min.js') }}"></script>
+
+    <!-- Nestable init js (if exists) -->
+    <script src="{{ asset('Backend/assets/js/pages/nestable.init.js') }}"></script>
+
+
 
     <!-- profile-setting init js -->
     <script src="{{ asset('Backend/assets/js/pages/profile-setting.init.js') }}"></script>
@@ -133,45 +139,6 @@
 
     </script>
 
-{{-- <script>
-    toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": true,
-        "progressBar": true,
-        "positionClass": "toast-bottom-center",
-        "preventDuplicates": true,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
-
-    @if(Session::has('success'))
-        toastr.success("{{ session('success') }}", "Success");
-    @endif
-
-    @if(Session::has('error'))
-        toastr.error("{{ session('error') }}", "Error");
-    @endif
-
-    @if(Session::has('info'))
-        toastr.info("{{ session('info') }}", "Info");
-    @endif
-
-    @if(Session::has('warning'))
-        toastr.warning("{{ session('warning') }}", "Warning");
-    @endif
-    @if ($errors->any())
-        @foreach ($errors->all() as $error)
-            toastr.error("{{ $error }}", "Error");
-        @endforeach
-@endif
-</script> --}}
     @stack('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.6.0/bootstrap-tagsinput.min.js"
     integrity="sha512-SXJkO2QQrKk2amHckjns/RYjUIBCI34edl9yh0dzgw3scKu0q4Bo/dUr+sGHMUha0j9Q1Y7fJXJMaBi4xtyfDw=="

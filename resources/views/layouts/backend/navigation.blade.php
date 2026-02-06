@@ -53,6 +53,13 @@
                         <span data-key="t-settings" data-nav-text>Hero Section</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ request()->routeIs('admin.abouts.*') ? 'active' : '' }}"
+                       href="{{ route('admin.abouts.index') }}" data-nav-link>
+                        <i data-feather="info" class="icon-dual" data-nav-icon></i>
+                        <span data-key="t-abouts" data-nav-text>About</span>
+                    </a>
+                </li>
 
                 <!-- Partners -->
                 <li class="nav-item">

@@ -31,20 +31,11 @@ class HeroSectionController extends Controller
         return view('admin.hero-sections.create');
     }
 
-    // public function store(HeroSectionRequest $request)
-    // {
-    //     $this->repository->storeOrUpdate($request->validated());
-
-    //     return redirect()
-    //         ->route('admin.hero-sections.edit')
-    //         ->with('success', 'Hero section created successfully.');
-    // }
+   
     // In your Controller (HeroSectionController.php)
     public function store(HeroSectionRequest $request)
     {
         try {
-            // Debug: Check what data is coming in
-            // dd($request->all());
 
             $data = $request->validated();
 

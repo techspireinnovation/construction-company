@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\HeroSectionController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\PortfolioCategoryController;
@@ -32,6 +33,7 @@ Route::get('/team', [FrontendController::class, 'indexTeam'])->name('web.team');
 Route::get('/blog', [FrontendController::class, 'indexBlog'])->name('web.blog');
 Route::get('/testimonial', [FrontendController::class, 'indexTestimonial'])->name('web.testimonial');
 Route::get('/services', [FrontendController::class, 'indexService'])->name('web.services');
+Route::get('/gallery', [FrontendController::class, 'indexGallery'])->name('web.gallery');
 
 # Authentication Routes
 Auth::routes();
@@ -39,6 +41,18 @@ Auth::routes();
 # Home & Dashboard
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard')->middleware('auth');
+Route::prefix('admin')->name('admin.')->group(function () {
+
+    Route::get('profile', [DashboardController::class, 'indexProfile'])
+        ->name('profile.index');
+
+    Route::get('profile/edit', [DashboardController::class, 'editProfile'])
+        ->name('profile.edit');
+
+    Route::put('profile/update', [DashboardController::class, 'updateProfile'])
+        ->name('profile.update');
+
+});
 
 # Admin Routes
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
@@ -76,7 +90,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
             Route::post('pages/update-order', [PageController::class, 'updateOrder'])->name('pages.update-order');
         }
     }
-  
+
 
     Route::prefix('hero-sections')->name('hero-sections.')->controller(HeroSectionController::class)->group(function () {
         Route::get('/', 'index')->name('index');
@@ -86,6 +100,17 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::put('/update', 'update')->name('update'); // No ID parameter\
 
     });
+
+
+    Route::prefix('abouts')->name('abouts.')->controller(AboutController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/edit', 'edit')->name('edit');
+        Route::put('/update', 'update')->name('update');
+    });
+
+
     # Site Settings
     Route::prefix('site_setting')->name('site_setting.')->controller(SiteSettingController::class)->group(function () {
         Route::get('/', 'index')->name('index');

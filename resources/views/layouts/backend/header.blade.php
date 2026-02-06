@@ -32,12 +32,12 @@
                 </button>
 
                 <!-- App Search-->
-                
-                    <div style="margin-top:25px; text-decoration: none;" >
+
+                    {{-- <div style="margin-top:25px; text-decoration: none;" >
                     <a href="{{ route('web.home') }}">View Website</a>
-                    </div>
-                  
-              
+                    </div> --}}
+
+
             </div>
 
             <div class="d-flex align-items-center">
@@ -335,33 +335,74 @@
                     </div>
                 </div>
 
-                <div class="dropdown ms-sm-3 header-item topbar-user">
-                    <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="{{ asset('Backend/assets/images/users/avatar-1.jpg') }}" alt="Header Avatar">
-                            <span class="text-start ms-xl-2">
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Anna Adame</span>
-                                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Founder</span>
-                            </span>
-                        </span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <!-- item-->
-                        <h6 class="dropdown-header">Welcome Anna!</h6>
-                        <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
-                        <a class="dropdown-item" href="#"><span class="badge bg-success-subtle text-success mt-1 float-end">New</span><i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Settings</span></a>
-                        <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-    <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
-    <span class="align-middle" data-key="t-logout">{{ __('Logout') }}</span>
-</a>
-<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-    @csrf
-    <a class="dropdown-item" href="{{ route('logout') }}"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                @php
+                $user = auth()->user();
+            @endphp
 
-</form>
-                   
-                    </div>
+            <div class="dropdown ms-sm-3 header-item topbar-user">
+                <button type="button"
+                        class="btn"
+                        id="page-header-user-dropdown"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+
+                    <span class="d-flex align-items-center">
+
+                        {{-- Profile Image --}}
+                        <img class="rounded-circle header-profile-user"
+                             src="{{ $user && $user->profile_image
+                                    ? asset('storage/' . $user->profile_image)
+                                    : asset('Backend/assets/images/users/avatar-1.jpg') }}"
+                             alt="Header Avatar">
+
+                        <span class="text-start ms-xl-2">
+
+                            {{-- Name --}}
+                            <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
+                                {{ $user->name ?? 'Admin User' }}
+                            </span>
+
+                            {{-- Role / Title --}}
+                            <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">
+                                {{ $user->role->name ?? 'Administrator' }}
+                            </span>
+
+                        </span>
+                    </span>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end">
+
+                    {{-- Welcome Text --}}
+                    <h6 class="dropdown-header">
+                        Welcome {{ $user->name ?? 'Admin' }}!
+                    </h6>
+
+                    {{-- Profile --}}
+                    <a class="dropdown-item" href="{{ route('admin.profile.index') }}">
+                        <i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
+                        <span class="align-middle">Profile</span>
+                    </a>
+
+                    {{-- Logout --}}
+                    <a class="dropdown-item"
+                       href="#"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
+                        <span class="align-middle">{{ __('Logout') }}</span>
+                    </a>
+
+                    <form id="logout-form"
+                          action="{{ route('logout') }}"
+                          method="POST"
+                          class="d-none">
+                        @csrf
+                    </form>
+
                 </div>
+            </div>
+
             </div>
         </div>
     </div>

@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Repositories\AboutRepository;
 use App\Repositories\BlogCategoryRepository;
 use App\Repositories\BlogRepository;
 use App\Repositories\CareerRepository;
 use App\Repositories\GalleryRepository;
 use App\Repositories\HeroSectionRepository;
+use App\Repositories\Interfaces\AboutRepositoryInterface;
 use App\Repositories\Interfaces\BlogCategoryRepositoryInterface;
 use App\Repositories\Interfaces\BlogRepositoryInterface;
 use App\Repositories\Interfaces\CareerRepositoryInterface;
@@ -31,7 +33,9 @@ use App\Repositories\TeamRepository;
 use App\Repositories\TestimonialRepository;
 use App\Repositories\WhyChooseUsRepository;
 use Illuminate\Support\ServiceProvider;
-
+use Illuminate\Support\Facades\View;
+use App\Models\SiteSetting;
+use App\Models\Page;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -53,13 +57,23 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SiteSettingRepositoryInterface::class, SiteSettingRepository::class);
         $this->app->bind(HeroSectionRepositoryInterface::class, HeroSectionRepository::class);
         $this->app->bind(PageRepositoryInterface::class, PageRepository::class);
+        $this->app->bind(AboutRepositoryInterface::class, AboutRepository::class);
     }
 
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-        //
-    }
+    public function boot()
+{
+    View::composer('layouts.frontend.*', function ($view) {
+
+        $siteSetting = SiteSetting::first();
+
+        $pages = Page::where('status', 1)
+            ->orderBy('order_no')
+            ->get();
+
+        $view->with(compact('siteSetting', 'pages'));
+    });
+}
 }
