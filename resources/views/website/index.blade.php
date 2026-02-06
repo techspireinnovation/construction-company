@@ -174,65 +174,68 @@
 		<!-- content-area -->
 		<div class="content-block">
             <div class="section-full content-inner-1 blog-sc cat-1">
-				<div class="container">
-					<div class="row">
-						<div class="col-12">
-							<div class="section-head text-center">
-								<h2>Services</h2>
-								<div class="divider-sc"></div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-12">
-							<div class="blog-carousel owl-carousel owl-theme owl-none">
-								<div class="item">
-									<div class="blog-post blog-grid">
-										<div class="dez-post-media dez-img-effect"> <a href="#"><img src="{{asset('Website/images/blog/image-1.jpg')}}" alt=""></a> </div>
-										<div class="dez-info">
-											<div class="dez-post-title ">
-												<h5 class="post-title"><a href="#">Prepare a room for painting</a></h5>
-											</div>
-											<div class="dez-post-text">
-												<p>Lorem Ipsum is simply dummy text of the printing and typesetting.</p>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="item">
-									<div class="blog-post blog-grid">
-										<div class="dez-post-media dez-img-effect"> <a href="#"><img src="{{asset('Website/images/blog/image-2.jpg')}}" alt=""></a> </div>
-										<div class="dez-info">
-											 
-											<div class="dez-post-title ">
-												<h5 class="post-title"><a href="#">Caring for construction</a></h5>
-											</div>
-											<div class="dez-post-text">
-												<p>Lorem Ipsum is simply dummy text of the printing and typesetting.</p>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="item">
-									<div class="blog-post blog-grid">
-										<div class="dez-post-media dez-img-effect"> <a href="#"><img src="{{asset('Website/images/blog/image-3.jpg')}}" alt=""></a> </div>
-										<div class="dez-info">
-											
-											<div class="dez-post-title ">
-												<h5 class="post-title"><a href="#">Hotel construction tiltshift timelaps</a></h5>
-											</div>
-											<div class="dez-post-text">
-												<p>Lorem Ipsum is simply dummy text of the printing and typesetting.</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-head text-center">
+                                <h2>Services</h2>
+                                <div class="divider-sc"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="blog-carousel owl-carousel owl-theme owl-none">
+                                @if(isset($services) && $services->count())
+                                    @foreach($services as $service)
+                                        <div class="item">
+                                            <div class="blog-post blog-grid">
+                                                <div class="dez-post-media dez-img-effect">
+                                                    <a href="{{ route('web.service.single', $service->slug) }}">
+                                                        <img src="{{ $service->image ? asset('storage/' . $service->image) : asset('Website/images/service/service-1.jpg') }}"
+                                                             alt="{{ $service->title ?? 'Service Image' }}">
+                                                    </a>
+                                                </div>
+                                                <div class="dez-info">
+                                                    <div class="dez-post-title">
+                                                        <h5 class="post-title">
+                                                            <a href="{{ route('web.service.single', $service->slug) }}">
+                                                                {{ $service->title ?? 'Service Title' }}
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div class="dez-post-text">
+                                                        <p>{{ $service->short_description ?? 'Lorem Ipsum dummy text.' }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    {{-- Optional fallback if no services exist --}}
+                                    <div class="item">
+                                        <div class="blog-post blog-grid">
+                                            <div class="dez-post-media dez-img-effect">
+                                                <a href="#"><img src="{{ asset('Website/images/service/service-1.jpg') }}" alt="Service"></a>
+                                            </div>
+                                            <div class="dez-info">
+                                                <div class="dez-post-title">
+                                                    <h5 class="post-title"><a href="#">No Services Available</a></h5>
+                                                </div>
+                                                <div class="dez-post-text">
+                                                    <p>Please check back later.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 			<!-- about and faq -->
 			<div class="section-full content-inner">
 				<div class="container">
@@ -254,7 +257,7 @@
 								<div class="m-r50 align-self-center">
 									<a href="#" class="site-button">Know More</a>
 								</div>
-								
+
 							</div>
 						</div>
 						<div class="col-lg-6">
@@ -618,7 +621,7 @@
 				</div>
 			</div>
 			<!-- partner end -->
-			
+
 		</div>
 		<!-- content-area end -->
 	</div>

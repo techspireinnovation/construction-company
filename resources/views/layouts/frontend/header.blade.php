@@ -243,10 +243,10 @@
                     @endif
                 </ul>
             </li>
-            <li><a href="{{ route('web.portfolio') }}">Our projects</a></li>
+            <li><a href="{{ route('web.portfolio') }}">Projects</a></li>
             <li><a href="{{ route('web.blog') }}">Blog</a></li>
             <li><a href="{{ route('web.career') }}">Career</a></li>
-            <li><a href="{{ route('web.contact') }}">Contact us</a></li>
+            <li><a href="{{ route('web.contact') }}">Contact</a></li>
         @endif
     </ul>
 </div>

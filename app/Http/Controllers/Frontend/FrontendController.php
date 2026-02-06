@@ -25,11 +25,19 @@ class FrontendController extends Controller
 
     public function indexHome()
     {
+        // Fetch all active services
+        $services = Service::where('status', 1)
+            ->whereNull('deleted_at')
+            ->latest()
+            ->get();
+
         return view('website.index', [
             'siteSetting' => $this->siteSetting,
-            'pages' => $this->pages
+            'pages' => $this->pages,
+            'services' => $services,
         ]);
     }
+
 
     public function indexAbout()
     {
@@ -88,18 +96,35 @@ class FrontendController extends Controller
     }
 
     public function indexService()
-    {
-        $services = Service::where('status', 1)
-            ->whereNull('deleted_at')
-            ->latest()
-            ->get();
+{
+    // Fetch the Services Page (type = 3)
+    $page = Page::where('type', 3)
+        ->where('status', 1)
+        ->with('seoDetail')
+        ->first();
 
-        return view('website.service', [
-            'siteSetting' => $this->siteSetting,
-            'pages' => $this->pages,
-            'services' => $services
-        ]);
-    }
+    // Prepare SEO meta using reusable method
+    $seoMeta = $this->generateSeo(
+        $page,                                   // model
+        'Our Services',                           // default title
+        'Explore our professional services',     // default description
+        'services, IT solutions, business',      // default keywords
+        asset('Website/images/background/image-1.jpg') // default image
+    );
+
+    // Fetch all active services
+    $services = Service::where('status', 1)
+        ->whereNull('deleted_at')
+        ->latest()
+        ->get();
+
+    // Return view with page, services, and SEO
+    return view('website.service', array_merge(
+        compact('services', 'page'),
+        $seoMeta
+    ));
+}
+
 
     public function indexGallery()
     {
@@ -114,7 +139,55 @@ class FrontendController extends Controller
             ->where('status', 1)
             ->firstOrFail();
 
-        return view('website.service-single', compact('service'));
+        // Use reusable SEO method
+        $seoMeta = $this->generateSeo($service);
+
+        return view('website.service-single', array_merge(
+            compact('service'),
+            $seoMeta
+        ));
     }
+
+
+    /**
+     * Generate SEO meta data for any model
+     *
+     * @param  mixed $model
+     * @param  string $defaultTitle
+     * @param  string $defaultDescription
+     * @param  string $defaultKeywords
+     * @param  string $defaultImage
+     * @return array
+     */
+    protected function generateSeo($model, $defaultTitle = '', $defaultDescription = '', $defaultKeywords = '', $defaultImage = '')
+    {
+        $seo = $model->seoDetail ?? null;
+
+        // Title fallback
+        $title = $seo->seo_title ?? $model->title ?? $defaultTitle ?? 'Website';
+
+        // Description fallback
+        $description = $seo->seo_description ?? ($model->short_description ?? $defaultDescription ?? 'IT Solutions & Business Services Multipurpose Responsive Website Template');
+
+        // Keywords fallback
+        $keywords = $seo->seo_keywords ? implode(',', $seo->seo_keywords) : ($defaultKeywords ?? 'IT solutions, Business Services, TechnoxIt, Bootstrap Template');
+
+        // Image fallback
+        if ($seo && $seo->seo_image) {
+            $image = asset('storage/' . $seo->seo_image);
+        } elseif (isset($model->banner_image) && $model->banner_image) {
+            $image = asset('storage/' . $model->banner_image);
+        } else {
+            $image = $defaultImage ?: asset('Website/images/background/image-1.jpg');
+        }
+
+        return [
+            'meta_title' => $title,
+            'meta_description' => $description,
+            'meta_keywords' => $keywords,
+            'meta_image' => $image,
+        ];
+    }
+
 
 }
