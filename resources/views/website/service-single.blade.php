@@ -1,42 +1,42 @@
 ﻿@extends('layouts.frontend.master')
+@section('meta_content')
+    <!-- HTML Meta Tags -->
+    <meta name="description" content="{{ $meta_description }}">
+    <meta name="keywords" content="{{ $meta_keywords }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="{{ $meta_title }}">
+    <meta property="og:description" content="{{ $meta_description }}">
+    <meta property="og:image" content="{{ $meta_image }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="{{ $meta_title }}">
+    <meta property="twitter:description" content="{{ $meta_description }}">
+    <meta property="twitter:image" content="{{ $meta_image }}">
+@endsection
 
 @section('content')
     <!-- Content -->
 	<div class="page-content">
 		 <!-- inner page banner -->
-        <!-- inner page banner -->
-<div class="dez-bnr-inr overlay-primary-dark text-center"
-style="background: url({{ isset($service) && $service->banner_image ? asset('storage/' . $service->banner_image) : asset('Website/images/background/image-1.jpg') }});">
-<div class="container">
-   <div class="dez-bnr-inr-entry">
-       <h1 class="text-white">{{ $service->title ?? 'Service Title' }}</h1>
-   </div>
-</div>
-</div>
-<!-- inner page banner END -->
+         @php
+         $breadcrumbs = [
+             ['label' => 'Home', 'url' => route('web.home')],
+             ['label' => 'Services', 'url' => route('web.services')],
+             ['label' => $service->title]
+         ];
+     @endphp
 
-        <!-- inner page banner END -->
-        <!-- Breadcrumb row -->
-        <div class="breadcrumb-row">
-            <div class="container d-flex justify-content-between">
-                <ul class="list-inline">
-                    <li><a href="{{ route('web.home') ?? '#' }}">Home</a></li>
-					<li><a href="{{ route('web.services') ?? '#' }}">Services</a></li>
-                    <li>{{ $service->title ?? 'Service' }}</li>
-                </ul>
-				<div class="share">
-					<div class="share-link-rw">
-						<ul class="share-open">
-							<li><a href="#" class=""><i class="fa fa-facebook"></i></a></li>
-							<li><a href="#" class=""><i class="fa fa-google-plus"></i></a></li>
-							<li><a href="#" class=""><i class="fa fa-linkedin"></i></a></li>
-							<li><a href="#" class=""><i class="fa fa-twitter"></i></a></li>
-						</ul>
-						<a href="#" class="share-butn"><i class="fa fa-share-alt"></i>share</a>
-					</div>
-				</div>
-            </div>
-        </div>
+     <x-page-banner
+         :title="$service->title"
+         :banner="isset($service) && $service->banner_image ? asset('storage/' . $service->banner_image) : null"
+         :breadcrumbs="$breadcrumbs"
+     />
+
         <!-- Breadcrumb row END -->
 		<!-- content area -->
 		<div class="section-full content-inner-3 single-service">
