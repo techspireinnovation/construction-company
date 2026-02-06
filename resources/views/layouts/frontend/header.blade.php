@@ -136,6 +136,9 @@
                         5 => 'web.testimonial', 6 => 'web.gallery', 7 => 'web.portfolio', 8 => 'web.blog',
                         9 => 'web.career', 10 => 'web.contact'
                     ];
+
+                    // Get active services for dropdown
+                    $services = App\Models\Service::where('status', 1)->get();
                 @endphp
 
 <div class="header-nav navbar-collapse collapse justify-content-center" id="navbarNavDropdown">
@@ -177,6 +180,17 @@
                             @if($isServices)
                                 <!-- Always show View all services in dropdown -->
                                 <li><a href="{{ route('web.services') }}">View all the services</a></li>
+
+                                <!-- Show actual services from database -->
+                                @if(isset($services) && $services->count())
+                                    @foreach($services as $service)
+                                        <li>
+                                            <a href="{{ route('web.service.single', $service->slug) }}">
+                                                {{ $service->title }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                @endif
                             @endif
 
                             @if($hasChildren)
@@ -215,12 +229,18 @@
                 </a>
                 <ul class="sub-menu">
                     <li><a href="{{ route('web.services') }}">View all the services</a></li>
-                    <li><a href="#">Business Growth</a></li>
-                    <li><a href="#">Sustainability</a></li>
-                    <li><a href="#">Performance</a></li>
-                    <li><a href="#">Advanced Analytics</a></li>
-                    <li><a href="#">Organization</a></li>
-                    <li><a href="#">Customer Insights</a></li>
+
+                    <!-- Show actual services from database -->
+                    @if(isset($services) && $services->count())
+                        @foreach($services as $service)
+                            <li>
+                                <a href="{{ route('web.service.single', $service->slug) }}">
+                                    {{ $service->title }}
+                                </a>
+                            </li>
+                        @endforeach
+
+                    @endif
                 </ul>
             </li>
             <li><a href="{{ route('web.portfolio') }}">Our projects</a></li>

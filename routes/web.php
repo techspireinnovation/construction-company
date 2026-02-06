@@ -34,6 +34,8 @@ Route::get('/blog', [FrontendController::class, 'indexBlog'])->name('web.blog');
 Route::get('/testimonial', [FrontendController::class, 'indexTestimonial'])->name('web.testimonial');
 Route::get('/services', [FrontendController::class, 'indexService'])->name('web.services');
 Route::get('/gallery', [FrontendController::class, 'indexGallery'])->name('web.gallery');
+Route::get('/services/{slug}', [FrontendController::class, 'serviceSingle'])
+    ->name('web.service.single');
 
 # Authentication Routes
 Auth::routes();

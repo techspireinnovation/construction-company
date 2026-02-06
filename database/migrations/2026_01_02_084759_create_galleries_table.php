@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->increments('id');
             $table->string('title', 100);
             $table->json('images');
-            $table->tinyInteger('status')->default(0)->comment('0=active, 1=inactive');
+            $table->tinyInteger('status')->default(1)->comment('0=inactive, 1=active');
             $table->timestamps();
             $table->softDeletes();
         });

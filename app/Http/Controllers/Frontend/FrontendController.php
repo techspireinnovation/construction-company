@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Service;
 use App\Models\SiteSetting;
 use App\Models\Page;
 
@@ -88,11 +89,18 @@ class FrontendController extends Controller
 
     public function indexService()
     {
+        $services = Service::where('status', 1)
+            ->whereNull('deleted_at')
+            ->latest()
+            ->get();
+
         return view('website.service', [
             'siteSetting' => $this->siteSetting,
-            'pages' => $this->pages
+            'pages' => $this->pages,
+            'services' => $services
         ]);
     }
+
     public function indexGallery()
     {
         return view('website.gallery', [
@@ -100,4 +108,13 @@ class FrontendController extends Controller
             'pages' => $this->pages
         ]);
     }
+    public function serviceSingle($slug)
+    {
+        $service = Service::where('slug', $slug)
+            ->where('status', 1)
+            ->firstOrFail();
+
+        return view('website.service-single', compact('service'));
+    }
+
 }

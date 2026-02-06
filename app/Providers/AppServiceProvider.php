@@ -64,16 +64,16 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot()
-{
-    View::composer('layouts.frontend.*', function ($view) {
+    {
+        View::composer('layouts.frontend.*', function ($view) {
 
-        $siteSetting = SiteSetting::first();
+            $siteSetting = SiteSetting::first();
 
-        $pages = Page::where('status', 1)
-            ->orderBy('order_no')
-            ->get();
+            $pages = Page::where('status', 1)
+                ->orderBy('order_no')
+                ->get();
 
-        $view->with(compact('siteSetting', 'pages'));
-    });
-}
+            $view->with(compact('siteSetting', 'pages'));
+        });
+    }
 }

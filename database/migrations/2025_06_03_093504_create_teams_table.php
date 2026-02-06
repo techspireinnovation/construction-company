@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('instagram_link')->nullable();
             $table->string('facebook_link')->nullable();
             $table->string('linkedin_link')->nullable();
-            $table->tinyInteger('status')->default(0)->comment('0=active, 1=inactive');
+            $table->tinyInteger('status')->default(1)->comment('0=inactive, 1=active');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->date('start_date');
             $table->date('end_date');
             $table->tinyInteger('project_status')->default(0)->comment('0=completed, 1=ongoing, 2=upcoming');
-            $table->tinyInteger('status')->default(0)->comment('0=active, 1=inactive');
+            $table->tinyInteger('status')->default(1)->comment('0=inactive, 1=active');
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('portfolio_category_id')->references('id')->on('portfolio_categories')->cascadeOnDelete();

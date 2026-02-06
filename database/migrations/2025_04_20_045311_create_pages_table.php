@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('banner_image')->nullable();
             $table->integer('order_no')->default(0);
             $table->unsignedInteger('parent_id')->nullable();
-            $table->tinyInteger('status')->default(0)->comment('0=active, 1=inactive');
+            $table->tinyInteger('status')->default(1)->comment('0=inactive, 1=active');
             $table->timestamps();
             $table->softDeletes();
 
