@@ -12,9 +12,9 @@ return new class extends Migration {
     {
         Schema::create('partners', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->nullable();
-            $table->string('image')->nullable();
-            $table->tinyInteger('status')->default(0)->comment('0=active, 1=inactive');
+            $table->string('name', 100);
+            $table->string('image');
+            $table->tinyInteger('status')->default(1)->comment('0=inactive, 1=active');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -5,6 +5,7 @@
     <div class="page-content">
         <div class="container-fluid">
             <!-- Include the _message.blade.php partial -->
+            @include('_message')
 
             <!-- start page title -->
             <div class="row">
@@ -35,7 +36,16 @@
                                     <div class="col-sm-auto">
                                         <div>
                                             <a href="{{ route('admin.services.create') }}" class="btn btn-primary add-btn"><i class="ri-add-line align-bottom me-1"></i> Add</a>
-                                            <button class="btn btn-soft-danger" id="delete-multiple-btn" disabled><i class="ri-delete-bin-2-line"></i></button>
+                                            <button
+                                            class="btn btn-soft-danger js-bulk-delete"
+                                            id="delete-multiple-btn"
+                                            disabled
+                                            data-action="{{ route('admin.services.bulk-destroy') }}"
+                                            data-csrf="{{ csrf_token() }}"
+                                            data-checkbox=".chk-child">
+                                            <i class="ri-delete-bin-2-line"></i>
+                                        </button>
+
                                         </div>
                                     </div>
                                     <div class="col-sm">
@@ -58,7 +68,7 @@
                                                     </div>
                                                 </th>
                                                 <th class="sort" data-sort="title">Title</th>
-                                                <th class="sort" data-sort="short_description">Short short_description</th>
+                                                <th class="sort" data-sort="short_description">Short description</th>
                                                 <th class="sort" data-sort="image">Image</th>
                                                 <th class="sort" data-sort="status">Status</th>
                                                 <th class="sort" data-sort="action">Action</th>
@@ -94,11 +104,17 @@
                                                     <td>
                                                         <div class="d-flex gap-2">
                                                             <a href="{{ route('admin.services.edit', $service->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                                            <form action="{{ route('admin.services.destroy', $service->id) }}" method="POST" class="delete-form" style="display:inline;">
+                                                            <form action="{{ route('admin.services.destroy', $service->id) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this service?')">Remove</button>
+
+                                                                <button type="button"
+                                                                    class="btn btn-sm btn-danger js-single-delete"
+                                                                    data-message="Are you sure you want to delete this service?">
+                                                                    Remove
+                                                                </button>
                                                             </form>
+                                                                                                                        </form>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -107,7 +123,6 @@
                                     </table>
                                     <div class="noresult" style="display: none">
                                         <div class="text-center">
-                                            <lord-icon src="{{ asset('public/msoeawqm.json') }}" trigger="loop" colors="primary:#25a0e2,secondary:#00bd9d" style="width:75px;height:75px"></lord-icon>
                                             <h5 class="mt-2">Sorry! No Result Found</h5>
                                             <p class="text-muted mb-0">No services found for your search.</p>
                                         </div>
@@ -140,6 +155,10 @@
     </div>
     <!-- End Page-content -->
 </div>
+<!-- Delete Confirmation Modal (Single + Bulk) -->
+
+@include('components.delete-confirm-modal')
+
 @endsection
 
 @section('style')
@@ -151,75 +170,9 @@
 
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.9/dist/tagify.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Handle multiple delete
-        const deleteMultipleBtn = document.querySelector('#delete-multiple-btn');
-        const checkboxes = document.querySelectorAll('input[name="chk_child"]');
-        const checkAll = document.querySelector('#checkAll');
+<script src="{{ asset('js/delete-handler.js') }}"></script>
+<script src="{{ asset('js/page-handler.js') }}"></script>
 
-        // Update delete button state based on checkbox selection
-        function updateDeleteButtonState() {
-            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
-            deleteMultipleBtn.disabled = checkedCount === 0;
-            deleteMultipleBtn.title = checkedCount === 0 ? 'Select at least one service to delete' : 'Delete selected services';
-        }
 
-        // Initial state
-        updateDeleteButtonState();
 
-        // Update button state on checkbox change
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', updateDeleteButtonState);
-        });
-
-        // Handle check all checkbox
-        checkAll.addEventListener('change', function () {
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = this.checked;
-            });
-            updateDeleteButtonState();
-        });
-
-        // Handle multiple delete
-        deleteMultipleBtn.addEventListener('click', function () {
-            const checkedIds = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
-            if (checkedIds.length === 0) {
-                alert('Please select at least one service to delete.');
-                return;
-            }
-            if (confirm(`Are you sure you want to delete ${checkedIds.length} service(s)?`)) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '{{ route("admin.services.bulk-destroy") }}';
-                form.innerHTML = `
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="ids" value="${checkedIds.join(',')}">
-                `;
-                document.body.appendChild(form);
-                form.submit();
-            }
-        });
-
-        // Handle search (client-side filtering)
-        document.querySelector('#search-input').addEventListener('input', function () {
-            const searchTerm = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#serviceTable tbody tr');
-            let hasResults = false;
-
-            rows.forEach(row => {
-                const title = row.querySelector('.title').textContent.toLowerCase();
-                const short_description = row.querySelector('.short_description').textContent.toLowerCase();
-                if (title.includes(searchTerm) || short_description.includes(searchTerm)) {
-                    row.style.display = '';
-                    hasResults = true;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            document.querySelector('.noresult').style.display = hasResults ? 'none' : 'block';
-        });
-    });
-</script>
 @endsection

@@ -4,6 +4,9 @@
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
+            {{-- Messages --}}
+            @include('_message')
+
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -23,17 +26,28 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
+
                         <div class="card-header">
                             <h4 class="card-title mb-0">Manage Careers</h4>
-                        </div><!-- end card header -->
+                        </div>
 
                         <div class="card-body">
-                            <div class="listjs-table" id="customerList">
+                            <div class="listjs-table" id="careerList">
                                 <div class="row g-4 mb-3">
                                     <div class="col-sm-auto">
                                         <div>
-                                            <a href="{{ route('admin.careers.create') }}" class="btn btn-primary add-btn"><i class="ri-add-line align-bottom me-1"></i> Add</a>
-                                            <button class="btn btn-soft-danger" id="delete-multiple-btn"><i class="ri-delete-bin-2-line"></i></button>
+                                            <a href="{{ route('admin.careers.create') }}" class="btn btn-primary add-btn">
+                                                <i class="ri-add-line align-bottom me-1"></i> Add
+                                            </a>
+                                            <button
+                                            class="btn btn-soft-danger js-bulk-delete"
+                                            id="delete-multiple-btn"
+                                            disabled
+                                            data-action="{{ route('admin.careers.bulk-destroy') }}"
+                                            data-csrf="{{ csrf_token() }}"
+                                            data-checkbox=".chk-child">
+                                                <i class="ri-delete-bin-2-line"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="col-sm">
@@ -47,17 +61,17 @@
                                 </div>
 
                                 <div class="table-responsive table-card mt-3 mb-1">
-                                    <table class="table align-middle table-nowrap" id="customerTable">
+                                    <table class="table align-middle table-nowrap" id="careerTable">
                                         <thead class="table-light">
                                             <tr>
-                                                <th scope="col" style="width: 50px;">
+                                                <th style="width:50px;">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" id="checkAll" value="option">
                                                     </div>
                                                 </th>
-                                                <th class="sort" data-sort="company_logo">Logo</th>
-                                                <th class="sort" data-sort="title">Title</th>
-                                                <th class="sort" data-sort="company_name">Company Name</th>
+                                                <th class="sort" data-sort="job_title">Job Title</th>
+                                                <th class="sort" data-sort="employment_type">Employment Type</th>
+                                                <th class="sort" data-sort="education_level">Education Level</th>
                                                 <th class="sort" data-sort="status">Status</th>
                                                 <th class="sort" data-sort="action">Action</th>
                                             </tr>
@@ -65,46 +79,47 @@
                                         <tbody class="list form-check-all">
                                             @foreach ($careers as $career)
                                                 <tr>
-                                                    <th scope="row">
+                                                    <th>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" name="chk_child" value="{{ $career->id }}">
+                                                            <input class="form-check-input chk-child" type="checkbox" name="chk_child" value="{{ $career->id }}">
                                                         </div>
                                                     </th>
-                                                    <td class="company_logo">
-                                                        @if ($career->company_logo)
-                                                            <img src="{{ asset('storage/careers/' . $career->company_logo) }}" alt="{{ $career->title ?? 'Company Logo' }}" style="max-width: 50px; max-height: 50px; object-fit: cover;">
-                                                        @else
-                                                            <span>No Logo</span>
-                                                        @endif
+                                                    <td class="job_title">{{ $career->job_title }}</td>
+                                                    <td class="employment_type">
+                                                        {{ $career->employment_type == 0 ? 'Full-time' : 'Part-time' }}
                                                     </td>
-                                                    <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">{{ $career->id }}</a></td>
-                                                    <td class="title">{{ $career->title ?? 'N/A' }}</td>
-                                                    <td class="company_name">{{ $career->company_name ?? 'N/A' }}</td>
+                                                    <td class="education_level">
+                                                        @php
+                                                            $levels = [
+                                                                0 => 'No formal education',
+                                                                1 => 'Basic (Up to Grade 8)',
+                                                                2 => 'SEE/SLC',
+                                                                3 => '+2',
+                                                                4 => 'Diploma',
+                                                                5 => 'Graduate (Bachelor)',
+                                                                6 => 'Postgraduate (Master)',
+                                                                7 => 'PhD'
+                                                            ];
+                                                        @endphp
+                                                        {{ $levels[$career->education_level] ?? 'N/A' }}
+                                                    </td>
+                                                  
                                                     <td class="status">
-                                                        <form action="{{ route('admin.careers.toggle_status', $career->id) }}" method="POST" class="status-form">
+                                                        <form action="{{ route('admin.careers.toggle-status', $career->id) }}" method="POST">
                                                             @csrf
-                                                            @method('PATCH')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input status-toggle" type="checkbox"
-                                                                       role="switch"
-                                                                       id="status-{{ $career->id }}"
-                                                                       name="status"
-                                                                       value="1"
-                                                                       {{ $career->status ? 'checked' : '' }}
-                                                                       onchange="this.form.submit();">
-                                                                <label class="form-check-label" style="padding-left:40px;" for="status-{{ $career->id }}">
-                                                                    {{ $career->status ? 'Active' : 'Inactive' }}
-                                                                </label>
+                                                                <input class="form-check-input status-toggle" type="checkbox" role="switch" id="status-{{ $career->id }}" {{ $career->status ? 'checked' : '' }} onchange="this.form.submit()">
+                                                                <label class="form-check-label" style="padding-left:40px;" for="status-{{ $career->id }}">{{ $career->status ? 'Active' : 'Inactive' }}</label>
                                                             </div>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <div class="d-flex gap-2">
                                                             <a href="{{ route('admin.careers.edit', $career->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                                            <form action="{{ route('admin.careers.destroy', $career->id) }}" method="POST" class="delete-form" style="display:inline;">
+                                                            <form action="{{ route('admin.careers.destroy', $career->id) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this career?')">Remove</button>
+                                                                <button type="button" class="btn btn-sm btn-danger js-single-delete" data-message="Are you sure you want to delete this career?">Remove</button>
                                                             </form>
                                                         </div>
                                                     </td>
@@ -112,9 +127,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <div class="noresult" style="display: none">
+
+                                    <div class="noresult" style="display:none">
                                         <div class="text-center">
-                                            <lord-icon src="{{ asset('public/msoeawqm.json') }}" trigger="loop" colors="primary:#25a0e2,secondary:#00bd9d" style="width:75px;height:75px"></lord-icon>
                                             <h5 class="mt-2">Sorry! No Result Found</h5>
                                             <p class="text-muted mb-0">No careers found for your search.</p>
                                         </div>
@@ -134,91 +149,49 @@
                                         <a class="page-item pagination-next {{ $careers->nextPageUrl() ? '' : 'disabled' }}" href="{{ $careers->nextPageUrl() }}">Next</a>
                                     </div>
                                 </div>
+
                             </div>
-                        </div><!-- end card -->
+                        </div>
+
                     </div>
-                    <!-- end col -->
                 </div>
-                <!-- end col -->
             </div>
-            <!-- end row -->
+
         </div>
-        <!-- container-fluid -->
     </div>
-    <!-- End Page-content -->
 </div>
+
+@include('components.delete-confirm-modal')
+
 @endsection
 
 @section('style')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.9/dist/tagify.css" />
 <style>
     .invalid-feedback:empty { display: none; }
-    .image-preview { max-width: 50px; max-height: 50px; margin: 5px; object-fit: cover; }
 </style>
 @endsection
 
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.9/dist/tagify.min.js"></script>
+<script src="{{ asset('js/delete-handler.js') }}"></script>
+<script src="{{ asset('js/page-handler.js') }}"></script>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Handle multiple delete
-        document.querySelector('#delete-multiple-btn').addEventListener('click', function () {
-            const checkedIds = Array.from(document.querySelectorAll('input[name="chk_child"]:checked')).map(input => input.value);
-            if (checkedIds.length === 0) {
-                alert('Please select at least one career to delete.');
-                return;
-            }
-            if (confirm(`Are you sure you want to delete ${checkedIds.length} career(s)?`)) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '{{ route("admin.careers.bulk_destroy") }}';
-                form.innerHTML = `
-                    @csrf
-                    <input type="hidden" name="ids" value="${checkedIds.join(',')}">
-                `;
-                document.body.appendChild(form);
-                form.submit();
-            }
-        });
-
-        // Handle search (client-side filtering)
-        document.querySelector('#search-input').addEventListener('input', function () {
-            const searchTerm = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#customerTable tbody tr');
-            let hasResults = false;
-
-            rows.forEach(row => {
-                const title = row.querySelector('.title').textContent.toLowerCase();
-                const companyName = row.querySelector('.company_name').textContent.toLowerCase();
-                if (title.includes(searchTerm) || companyName.includes(searchTerm)) {
-                    row.style.display = '';
-                    hasResults = true;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            document.querySelector('.noresult').style.display = hasResults ? 'none' : 'block';
-        });
-
-        // Handle check all checkbox
-        document.querySelector('#checkAll').addEventListener('change', function () {
-            document.querySelectorAll('input[name="chk_child"]').forEach(checkbox => {
-                checkbox.checked = this.checked;
-            });
-        });
-
-        // Handle status toggle
-        document.querySelectorAll('.status-toggle').forEach(toggle => {
-            toggle.addEventListener('change', function () {
-                if (this.checked) {
-                    this.parentElement.querySelector('.form-check-label').textContent = 'Active';
-                } else {
-                    this.parentElement.querySelector('.form-check-label').textContent = 'Inactive';
-                }
-                this.form.submit();
-            });
-        });
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize TableManager for Careers
+    window.tableManager = TableManager.init({
+        tableId: 'careerTable',
+        searchInputId: 'search-input',
+        childCheckboxClass: '.chk-child',
+        bulkDeleteBtnId: 'delete-multiple-btn',
+        checkAllId: 'checkAll',
+        noResultClass: 'noresult',
+        rowSelector: 'tbody tr',
+        searchColumns: ['.job_title', '.employment_type', '.education_level'],
+        showCountOnButton: false
     });
+
+    // Initialize DeleteHandler
+    DeleteHandler.init();
+});
 </script>
 @endsection

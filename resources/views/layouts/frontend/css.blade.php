@@ -8,3 +8,4 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('Website/plugins/revolution/revolution/css/settings.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('Website/plugins/revolution/revolution/css/navigation.css') }}">
 <!-- Revolution Navigation Style -->
+	

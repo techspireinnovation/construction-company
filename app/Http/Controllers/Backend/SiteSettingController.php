@@ -3,119 +3,66 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SiteSetting\UpdateRequest;
 use App\Models\SiteSetting;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Intervention\Image\Facades\Image;
+use App\Repositories\SiteSettingRepository;
+use App\Services\ImageService;
 
 class SiteSettingController extends Controller
 {
-    protected string $folderPath = 'SiteSettings';
+    protected SiteSettingRepository $repository;
+    protected ImageService $imageService;
 
-    public function __construct()
+
+    public function __construct(SiteSettingRepository $repository, ImageService $imageService)
     {
-        if (!Storage::disk('public')->exists($this->folderPath)) {
-            Storage::disk('public')->makeDirectory($this->folderPath);
-        }
+        $this->repository = $repository;
+        $this->imageService = $imageService;
+
     }
 
     public function index()
     {
-        $SiteSettings = SiteSetting::first();
-        return view('admin.site_setting.index', compact('SiteSettings'));
+        $settings = $this->repository->all();
+        return view('admin.site-settings.index', compact('settings'));
+    }
+    public function create()
+    {
+        return view('admin.site-settings.create');
     }
 
-    public function edit()
+    public function store(UpdateRequest $request)
     {
-        $SiteSettings = SiteSetting::first() ?? new SiteSetting();
-        return view('admin.site_setting.edit', compact('SiteSettings'));
+        $data = $request->validated();
+
+        // Handle logo & favicon if uploaded
+        if (isset($data['logo_image'])) {
+            $data['logo_image'] = $this->imageService->store($data['logo_image'], 'site_settings');
+        }
+
+        if (isset($data['fav_icon_image'])) {
+            $data['fav_icon_image'] = $this->imageService->store($data['fav_icon_image'], 'site_settings');
+        }
+
+        SiteSetting::create($data);
+
+        return redirect()->route('admin.site-settings.index')
+            ->with('success', 'Site setting created successfully.');
     }
 
-    public function update(Request $request)
+
+
+    public function edit($id)
     {
-        $validator = Validator::make($request->all(), [
-            'company_name' => 'required|string|max:100',
-            'primary_mobile_no' => 'required|string|max:10',
-            'secondary_mobile_no' => 'nullable|string|max:10',
-            'primary_email' => 'required|email|max:100',
-            'secondary_email' => 'nullable|email|max:100',
-            'address' => 'required|string',
-            'embedded_map' => 'required|string',
-            'footer_text' => 'required|string',
+        $setting = $this->repository->find($id);
+        return view('admin.site-settings.edit', compact('setting'));
+    }
 
-            'logo_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'fav_icon_image' => 'nullable|image|mimes:jpg,jpeg,png,ico|max:2048',
+    public function update(UpdateRequest $request, $id)
+    {
+        $this->repository->update($request->validated(), $id);
 
-            'facebook_link' => 'nullable|url',
-            'instagram_link' => 'nullable|url',
-            'whatsapp_link' => 'nullable|url',
-            'linkedin_link' => 'nullable|url',
-        ]);
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        $SiteSettings = SiteSetting::first() ?? new SiteSetting();
-
-        /* ---------------- Logo Upload ---------------- */
-        $logoName = $SiteSettings->logo_image;
-        if ($request->hasFile('logo_image')) {
-            if ($logoName) {
-                Storage::disk('public')->delete($this->folderPath . '/' . $logoName);
-            }
-
-            $logo = $request->file('logo_image');
-            $logoName = time() . '_logo.' . $logo->extension();
-
-            $image = Image::make($logo)->resize(200, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-
-            Storage::disk('public')->put(
-                $this->folderPath . '/' . $logoName,
-                (string) $image->encode()
-            );
-        }
-
-        /* ---------------- Favicon Upload ---------------- */
-        $faviconName = $SiteSettings->fav_icon_image;
-        if ($request->hasFile('fav_icon_image')) {
-            if ($faviconName) {
-                Storage::disk('public')->delete($this->folderPath . '/' . $faviconName);
-            }
-
-            $favicon = $request->file('fav_icon_image');
-            $faviconName = time() . '_favicon.' . $favicon->extension();
-            Storage::disk('public')->putFileAs(
-                $this->folderPath,
-                $favicon,
-                $faviconName
-            );
-        }
-
-        /* ---------------- Save Data ---------------- */
-        $SiteSettings->fill([
-            'company_name' => $request->company_name,
-            'primary_mobile_no' => $request->primary_mobile_no,
-            'secondary_mobile_no' => $request->secondary_mobile_no,
-            'primary_email' => $request->primary_email,
-            'secondary_email' => $request->secondary_email,
-            'address' => $request->address,
-            'embedded_map' => $request->embedded_map,
-            'footer_text' => $request->footer_text,
-            'logo_image' => $logoName,
-            'fav_icon_image' => $faviconName,
-            'facebook_link' => $request->facebook_link,
-            'instagram_link' => $request->instagram_link,
-            'whatsapp_link' => $request->whatsapp_link,
-            'linkedin_link' => $request->linkedin_link,
-        ])->save();
-
-        return redirect()
-            ->route('admin.site_setting.index')
-            ->with('success', 'Site SiteSettings updated successfully.');
+        return redirect()->route('admin.site-settings.index')
+            ->with('success', 'Site setting updated successfully.');
     }
 }

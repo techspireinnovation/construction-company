@@ -15,10 +15,11 @@ return new class extends Migration {
             $table->string('name', 100);
             $table->string('designation', 100);
             $table->string('image');
+            $table->integer('order_no')->default(0);
             $table->string('instagram_link')->nullable();
             $table->string('facebook_link')->nullable();
             $table->string('linkedin_link')->nullable();
-            $table->tinyInteger('status')->default(0)->comment('0=active, 1=inactive');
+            $table->tinyInteger('status')->default(1)->comment('0=inactive, 1=active');
             $table->softDeletes();
             $table->timestamps();
         });

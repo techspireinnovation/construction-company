@@ -37,8 +37,8 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+{{--
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.6.0/bootstrap-tagsinput.css"
@@ -57,53 +57,7 @@
         }
 
     </style>
-   <style>
-    /* General style for the rating container */
-    .rating {
-        display: flex;
-        flex-direction: row-reverse; /* Stars go from right to left */
-        justify-content: left;
-        gap: 5px; /* Spacing between stars */
-    }
 
-    /* Hide the radio buttons */
-    .rating > input {
-        display: none;
-    }
-
-    /* Default star style */
-    .rating > label {
-        font-size: 30px; /* Adjusts star size */
-        font-weight: 300;
-        color: #d3d3d3; /* Gray color for default stars */
-        cursor: pointer;
-        transition: color 0.2s ease-in-out;
-    }
-
-    /* Color for hover effect */
-    .rating > label:hover,
-    .rating > label:hover ~ label {
-        color: #FFD600; /* Bright yellow for hover */
-    }
-
-    /* Highlight checked star and all previous stars */
-    .rating > input:checked ~ label {
-        color: #FFD600; /* Bright yellow for selected stars */
-    }
-
-    /* Persistent color when hovering a selected star */
-    .rating:hover > input:checked ~ label {
-        color: #ffc107; /* Slightly lighter yellow */
-    }
-
-    /* Add consistent padding or margin */
-    .rating {
-        margin-top: 15px;
-    }
-    .brand-link{
-        overflow: hidden;
-    }
-</style>
 @stack('css')
 
     @yield('style')
@@ -119,6 +73,7 @@
         @include('layouts.backend.footer')
     </div>
     @yield('script')
+    @stack('scripts')
 
     <!-- JAVASCRIPT -->
     <script src="{{ asset('Backend/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -136,6 +91,12 @@
 
     <!-- App js -->
     <script src="{{ asset('Backend/assets/js/app.js') }}"></script>
+
+    <script src="{{ asset('Backend/assets/libs/sortablejs/Sortable.min.js') }}"></script>
+
+    <!-- Nestable init js (if exists) -->
+    <script src="{{ asset('Backend/assets/js/pages/nestable.init.js') }}"></script>
+
 
 
     <!-- profile-setting init js -->
@@ -178,45 +139,6 @@
 
     </script>
 
-<script>
-    toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": true,
-        "progressBar": true,
-        "positionClass": "toast-bottom-center",
-        "preventDuplicates": true,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
-
-    @if(Session::has('success'))
-        toastr.success("{{ session('success') }}", "Success");
-    @endif
-
-    @if(Session::has('error'))
-        toastr.error("{{ session('error') }}", "Error");
-    @endif
-
-    @if(Session::has('info'))
-        toastr.info("{{ session('info') }}", "Info");
-    @endif
-
-    @if(Session::has('warning'))
-        toastr.warning("{{ session('warning') }}", "Warning");
-    @endif
-    @if ($errors->any())
-        @foreach ($errors->all() as $error)
-            toastr.error("{{ $error }}", "Error");
-        @endforeach
-@endif
-</script>
     @stack('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.6.0/bootstrap-tagsinput.min.js"
     integrity="sha512-SXJkO2QQrKk2amHckjns/RYjUIBCI34edl9yh0dzgw3scKu0q4Bo/dUr+sGHMUha0j9Q1Y7fJXJMaBi4xtyfDw=="
@@ -235,6 +157,7 @@
         };
     });
 </script>
+<script src="{{ asset('js/toaster.js') }}"></script>
 
     <!-- App js -->
 </body>

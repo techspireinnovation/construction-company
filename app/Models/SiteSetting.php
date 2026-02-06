@@ -2,10 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class SiteSetting extends Model
+
+class SiteSetting extends Model implements Auditable
 {
+    use HasFactory;
+    use \OwenIt\Auditing\Auditable;
+
+
     protected $table = 'site_settings';
 
     protected $fillable = [
@@ -16,13 +23,12 @@ class SiteSetting extends Model
         'secondary_email',
         'address',
         'embedded_map',
-        'footer_text',
         'logo_image',
+        'footer_text',
         'fav_icon_image',
-        'facebook_link',
         'instagram_link',
+        'facebook_link',
         'whatsapp_link',
         'linkedin_link',
     ];
-
 }

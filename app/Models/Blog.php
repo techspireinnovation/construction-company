@@ -3,24 +3,34 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Blog extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
-        'title', 'image', 'short_description', 'long_description', 'status',
-        'category_id', 'tags', 'seo_title', 'seo_image', 'seo_keywords',
-        'seo_description', 'written_by', 'published_at', 'is_draft', 'view_count'
+        'title',
+        'slug',
+        'image',
+        'banner_image',
+        'short_description',
+        'description',
+        'blog_category_id',
+        'written_by',
+        'status'
     ];
 
+    // Blog belongs to a category
     public function category()
     {
-        return $this->belongsTo(BlogCategory::class);
+        return $this->belongsTo(BlogCategory::class, 'blog_category_id');
     }
 
-    public function author()
+    // Blog has one SEO detail
+    public function seo()
     {
-        return $this->belongsTo(User::class, 'author_id'); // Adjust based on your author field
+        return $this->hasOne(SeoDetail::class, 'reference_id')
+            ->where('type', 2);
     }
-
-    
 }

@@ -4,6 +4,8 @@
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
+            {{-- Toaster Component --}}
+            @include('components.toaster')
 
             <!-- start page title -->
             <div class="row">
@@ -45,16 +47,6 @@
                                 </div>
                             @endif
 
-                            <!-- Validation Errors -->
-                            @if($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul class="mb-0">
-                                        @foreach($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
 
                             <form id="editForm" method="POST" action="{{ route('admin.services.update', $service->id) }}" enctype="multipart/form-data" autocomplete="off">
                                 @csrf
@@ -96,14 +88,7 @@
 
                                     <!-- Long Description using reusable component -->
                                     <div class="col-md-12">
-                                        {{-- <x-rich-text-editor
-                                            name="description"
-                                            value="{{ old('description', $service->description) }}"
-                                            label="Long Description"
-                                            height="300"
-                                            :required="false"
-                                            :error="$errors->first('description')"
-                                        /> --}}
+
 
 <x-rich-text-editor
 name="description"

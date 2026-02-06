@@ -12,7 +12,7 @@ class CreateBlogCategoriesTable extends Migration
             $table->string('title', 100);
             $table->string('slug', 100)->unique();
             $table->string('image');
-            $table->tinyInteger('status')->default(0)->comment('0=active, 1=inactive');
+            $table->tinyInteger('status')->default(1)->comment('0=inactive, 1=active');
             $table->softDeletes();
             $table->timestamps();
         });

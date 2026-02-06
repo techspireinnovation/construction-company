@@ -4,6 +4,8 @@
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
+            {{-- Toaster Component --}}
+            @include('components.toaster')
 
             <!-- start page title -->
             <div class="row">
@@ -28,15 +30,7 @@
                         <div class="card-header">
                             <h4 class="card-title mb-0">Add New Service</h4>
                         </div>
-                        @if($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+
                         <div class="card-body">
                             <form id="createForm" method="POST" action="{{ route('admin.services.store') }}" enctype="multipart/form-data" autocomplete="off">
                                 @csrf

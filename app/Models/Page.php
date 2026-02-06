@@ -2,50 +2,56 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Page extends Model
+class Page extends Model implements Auditable
 {
-    use HasFactory;
+    use SoftDeletes;
+    use \OwenIt\Auditing\Auditable;
+
+    protected $table = 'pages';
 
     protected $fillable = [
-        'title',
-        'slug',
-        'page_type_id',
-        'content',
+        'type',
+        'banner_image',
         'status',
-        'menu',
-        'image',
-        'seo_title',
-        'seo_keywords',
-        'seo_description',
-        'seo_image',
-        'created_by',
-        'page_type',
+        'order_no',
+        'parent_id',
     ];
 
-    protected $casts = [
-        'status' => 'boolean',
-        'menu' => 'boolean',
-        'image' => 'array', // JSON column
-    ];
-
-    public function sections()
+    public function seoDetail()
     {
-        return $this->hasMany(PageContent::class);
+        return $this->hasOne(SeoDetail::class, 'reference_id')
+            ->where('type', 6); // 6 = pages
     }
 
-    public function creator()
+    public function children()
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->hasMany(Page::class, 'parent_id')
+            ->orderBy('order_no')
+            ->with('children'); // Recursive eager loading
     }
 
-    public function pageType()
+    public function parent()
     {
-        return $this->belongsTo(PageType::class, 'page_type_id');
+        return $this->belongsTo(Page::class, 'parent_id');
+    }
+
+    /**
+     * Get all descendants recursively
+     */
+    public function getDescendantsAttribute()
+    {
+        return $this->children()->with('descendants')->get();
+    }
+
+    /**
+     * Scope to get root pages (no parent)
+     */
+    public function scopeRoot($query)
+    {
+        return $query->whereNull('parent_id');
     }
 }
-
-
-

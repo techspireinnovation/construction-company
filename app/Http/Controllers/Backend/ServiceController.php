@@ -97,21 +97,11 @@ class ServiceController extends Controller
 
     public function toggleStatus($id)
     {
-        try {
-            $result = $this->serviceRepository->toggleStatus($id);
+        $this->serviceRepository->toggleStatus($id);
 
-            return response()->json([
-                'success' => $result['success'],
-                'message' => 'Status updated successfully',
-                'status' => $result['status']
-            ]);
-        } catch (\Exception $e) {
-            \Log::error('Toggle status failed: ' . $e->getMessage());
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to update status'
-            ], 500);
-        }
+        return redirect()
+            ->route('admin.services.index')
+            ->with('success', 'Status updated successfully');
     }
+
 }

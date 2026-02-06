@@ -3,118 +3,118 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Setting;
-use App\Models\Slider;
-use Illuminate\Http\Request;
+use App\Models\Service;
+use App\Models\SiteSetting;
+use App\Models\Page;
 
 class FrontendController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $siteSetting;
+    protected $pages;
+
+    public function __construct()
+    {
+        // Get first settings row
+        $this->siteSetting = SiteSetting::first();
+
+        // Get active pages ordered
+        $this->pages = Page::where('status', 1)
+            ->orderBy('order_no')
+            ->get();
+    }
+
     public function indexHome()
     {
-
-
-        return view('website.index');
+        return view('website.index', [
+            'siteSetting' => $this->siteSetting,
+            'pages' => $this->pages
+        ]);
     }
 
     public function indexAbout()
     {
-
-
-        return view('website.about');
+        return view('website.about', [
+            'siteSetting' => $this->siteSetting,
+            'pages' => $this->pages
+        ]);
     }
+
     public function indexTeam()
     {
-
-
-        return view('website.team');
+        return view('website.team', [
+            'siteSetting' => $this->siteSetting,
+            'pages' => $this->pages
+        ]);
     }
+
     public function indexTestimonial()
     {
-
-
-        return view('website.testimonial');
+        return view('website.testimonial', [
+            'siteSetting' => $this->siteSetting,
+            'pages' => $this->pages
+        ]);
     }
+
     public function indexBlog()
     {
-
-
-        return view('website.blog');
+        return view('website.blog', [
+            'siteSetting' => $this->siteSetting,
+            'pages' => $this->pages
+        ]);
     }
+
     public function indexContact()
     {
-
-
-        return view('website.contact');
+        return view('website.contact', [
+            'siteSetting' => $this->siteSetting,
+            'pages' => $this->pages
+        ]);
     }
 
     public function indexPortfolio()
     {
-
-
-
-
-        return view('website.portfolio');
+        return view('website.portfolio', [
+            'siteSetting' => $this->siteSetting,
+            'pages' => $this->pages
+        ]);
     }
+
     public function indexCareer()
     {
-
-
-        return view('website.career');
+        return view('website.career', [
+            'siteSetting' => $this->siteSetting,
+            'pages' => $this->pages
+        ]);
     }
+
     public function indexService()
     {
+        $services = Service::where('status', 1)
+            ->whereNull('deleted_at')
+            ->latest()
+            ->get();
 
-
-        return view('website.service');
+        return view('website.service', [
+            'siteSetting' => $this->siteSetting,
+            'pages' => $this->pages,
+            'services' => $services
+        ]);
     }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function indexGallery()
     {
-        //
+        return view('website.gallery', [
+            'siteSetting' => $this->siteSetting,
+            'pages' => $this->pages
+        ]);
+    }
+    public function serviceSingle($slug)
+    {
+        $service = Service::where('slug', $slug)
+            ->where('status', 1)
+            ->firstOrFail();
+
+        return view('website.service-single', compact('service'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

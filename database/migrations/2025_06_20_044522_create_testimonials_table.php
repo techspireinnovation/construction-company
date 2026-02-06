@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('designation', 100);
             $table->text('message');
             $table->string('image')->nullable();
-            $table->tinyInteger('status')->default(0)->comment('0=active, 1=inactive');
+            $table->tinyInteger('status')->default(1)->comment('0=inactive, 1=active');
             $table->softDeletes();
             $table->timestamps();
         });
