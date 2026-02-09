@@ -1,6 +1,7 @@
 @extends('layouts.frontend.master')
 @section('meta_content')
     <!-- HTML Meta Tags -->
+    <title>Our Services</title>
     <meta name="description" content="{{ $meta_description }}">
     <meta name="keywords" content="{{ $meta_keywords }}">
 
@@ -60,30 +61,9 @@
                         </div>
                     @endforeach
                 @else
-                    {{-- Fallback services --}}
-                    @php
-                        $fallbackServices = [
-                            ['title' => 'Architecture', 'image' => '1.jpg', 'description' => 'Lorem Ipsum dummy text.'],
-                            ['title' => 'Building Construct', 'image' => '2.jpg', 'description' => 'Lorem Ipsum dummy text.'],
-                            ['title' => 'Renovation', 'image' => '3.jpg', 'description' => 'Lorem Ipsum dummy text.'],
-                            ['title' => 'Home Design', 'image' => '4.jpg', 'description' => 'Lorem Ipsum dummy text.'],
-                            ['title' => 'Safety and Security', 'image' => '5.jpg', 'description' => 'Lorem Ipsum dummy text.'],
-                            ['title' => 'Renovation', 'image' => '6.jpg', 'description' => 'Lorem Ipsum dummy text.'],
-                        ];
-                    @endphp
-                    @foreach($fallbackServices as $service)
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="sr-pg-bx">
-                                <figure class="sr-img-bx">
-                                    <a href="#"><img src="{{ asset('Website/images/service/' . $service['image']) }}" alt="{{ $service['title'] }}"></a>
-                                </figure>
-                                <div class="cont-bx">
-                                    <a href="#"><h4>{{ $service['title'] }}</h4></a>
-                                    <p class="m-0">{{ $service['description'] }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                <div class="col-12">
+                    <p>No Services available.</p>
+                </div>
                 @endif
             </div>
         </div>

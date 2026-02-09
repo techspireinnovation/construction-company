@@ -1,6 +1,8 @@
 ﻿@extends('layouts.frontend.master')
 @section('meta_content')
     <!-- HTML Meta Tags -->
+    <title>{{ $service->title ?? $meta_title }}</title>
+
     <meta name="description" content="{{ $meta_description }}">
     <meta name="keywords" content="{{ $meta_keywords }}">
 
