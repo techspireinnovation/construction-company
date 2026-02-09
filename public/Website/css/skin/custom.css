@@ -1,0 +1,18 @@
+/* ===== Override Overlay Dark Background ===== */
+.overlay-primary-dark:after,
+.overlay-primary:after,
+.overlay-primary-light:after,
+.overlay-primary-middle:after {
+    background-color: #272727 !important;
+}
+
+/* ===== Override Revolution Slider Arrows ===== */
+.rev-slider .tparrows {
+    background-color: #272727 !important;
+}
+
+/* ===== Optional: if arrows use :before or :after pseudo-elements ===== */
+.rev-slider .tparrows:before,
+.rev-slider .tparrows:after {
+    background-color: #272727 !important;
+}
