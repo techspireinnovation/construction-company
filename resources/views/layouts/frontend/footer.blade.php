@@ -25,12 +25,12 @@
                 <div class="col-xl-3 col-lg-3 col-sm-6">
                     <div class="widget">
                         <img src="{{ asset($siteSetting && $siteSetting->logo_image ? 'storage/'.$siteSetting->logo_image : 'Website/images/logo2.png') }}"
-                        class="footer-logo"
-                        alt="{{ $siteSetting && $siteSetting->company_name ? $siteSetting->company_name : 'Company Logo' }}"
-                        style="max-height:80px; object-fit:contain;" />
+                             class="footer-logo"
+                             alt="{{ $siteSetting && $siteSetting->company_name ? $siteSetting->company_name : 'Company Logo' }}"
+                             style="max-height:80px; object-fit:contain;" />
 
                         <p class="text-capitalize m-b20">
-                            {{ $siteSetting->footer_text ?? "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s." }}
+                            {{ $siteSetting && $siteSetting->footer_text ? $siteSetting->footer_text : "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s." }}
                         </p>
                         <div class="link">
                             <a href="{{ route('web.portfolio') }}" class="btn btn-link">More Projects <i class="fa fa-angle-right"></i></a>
@@ -72,7 +72,7 @@
                                 @foreach($pages as $page)
                                     @if(in_array($page->type, [3,7,8,9,10]))
                                         <li>
-                                            <a href="{{ $routes[$page->type] ? route($routes[$page->type]) : '#' }}">
+                                            <a href="{{ isset($routes[$page->type]) ? route($routes[$page->type]) : '#' }}">
                                                 {{ $types[$page->type] ?? 'Unknown' }}
                                             </a>
                                         </li>
@@ -97,28 +97,34 @@
                         <h4>Contact us</h4>
                         <div class="divider-sc"></div>
                         <ul>
-                            <li><i class="ti-location-pin"></i>{{ $siteSetting->address ?? 'Demo address #8901 Marmora Road Chi Minh City, Vietnam' }}</li>
-                            <li><i class="ti-mobile"></i>{{ $siteSetting->primary_mobile_no ?? '0800-123456 (24/7 Support Line)' }}
-                                @if($siteSetting->secondary_mobile_no), {{ $siteSetting->secondary_mobile_no }} @endif
+                            <li><i class="ti-location-pin"></i>{{ $siteSetting && $siteSetting->address ? $siteSetting->address : 'Demo address #8901 Marmora Road Chi Minh City, Vietnam' }}</li>
+                            <li><i class="ti-mobile"></i>
+                                {{ $siteSetting && $siteSetting->primary_mobile_no ? $siteSetting->primary_mobile_no : '0800-123456 (24/7 Support Line)' }}
+                                @if($siteSetting && $siteSetting->secondary_mobile_no)
+                                    , {{ $siteSetting->secondary_mobile_no }}
+                                @endif
                             </li>
-                            <li><i class="ti-email"></i>{{ $siteSetting->primary_email ?? 'info@example.com' }}
-                                @if($siteSetting->secondary_email), {{ $siteSetting->secondary_email }} @endif
+                            <li><i class="ti-email"></i>
+                                {{ $siteSetting && $siteSetting->primary_email ? $siteSetting->primary_email : 'info@example.com' }}
+                                @if($siteSetting && $siteSetting->secondary_email)
+                                    , {{ $siteSetting->secondary_email }}
+                                @endif
                             </li>
                         </ul>
                         <ul class="list-inline">
-                            @if($siteSetting->facebook_link)
+                            @if($siteSetting && $siteSetting->facebook_link)
                                 <li><a href="{{ $siteSetting->facebook_link }}" class="site-button-link facebook hover" target="_blank"><i class="fa fa-facebook"></i></a></li>
                             @endif
-                            @if($siteSetting->google_link)
+                            @if($siteSetting && $siteSetting->google_link)
                                 <li><a href="{{ $siteSetting->google_link }}" class="site-button-link google-plus hover" target="_blank"><i class="fa fa-google-plus"></i></a></li>
                             @endif
-                            @if($siteSetting->linkedin_link)
+                            @if($siteSetting && $siteSetting->linkedin_link)
                                 <li><a href="{{ $siteSetting->linkedin_link }}" class="site-button-link linkedin hover" target="_blank"><i class="fa fa-linkedin"></i></a></li>
                             @endif
-                            @if($siteSetting->instagram_link)
+                            @if($siteSetting && $siteSetting->instagram_link)
                                 <li><a href="{{ $siteSetting->instagram_link }}" class="site-button-link instagram hover" target="_blank"><i class="fa fa-instagram"></i></a></li>
                             @endif
-                            @if($siteSetting->twitter_link)
+                            @if($siteSetting && $siteSetting->twitter_link)
                                 <li><a href="{{ $siteSetting->twitter_link }}" class="site-button-link twitter hover" target="_blank"><i class="fa fa-twitter"></i></a></li>
                             @endif
                         </ul>
@@ -136,7 +142,7 @@
                 <div class="col-lg-6">
                     <span>
                         Copyrights © {{ date('Y') }} All Rights Reserved by
-                      <a href="https://techspireinnovation.com.np/" target="_blank">Techspire Innovation Pvt. Ltd</a>
+                        <a href="https://techspireinnovation.com.np/" target="_blank">Techspire Innovation Pvt. Ltd</a>
                     </span>
                 </div>
                 <div class="col-lg-6">
