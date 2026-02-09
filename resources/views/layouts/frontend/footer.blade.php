@@ -24,10 +24,11 @@
                 <!-- Logo & About -->
                 <div class="col-xl-3 col-lg-3 col-sm-6">
                     <div class="widget">
-                        <img src="{{ asset($siteSetting->logo_image ? 'storage/'.$siteSetting->logo_image : 'Website/images/logo2.png') }}"
-                             class="footer-logo"
-                             alt="{{ $siteSetting->company_name ?? 'Company Logo' }}"
-                             style="max-height:80px; object-fit:contain;"/>
+                        <img src="{{ asset($siteSetting && $siteSetting->logo_image ? 'storage/'.$siteSetting->logo_image : 'Website/images/logo2.png') }}"
+                        class="footer-logo"
+                        alt="{{ $siteSetting && $siteSetting->company_name ? $siteSetting->company_name : 'Company Logo' }}"
+                        style="max-height:80px; object-fit:contain;" />
+
                         <p class="text-capitalize m-b20">
                             {{ $siteSetting->footer_text ?? "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s." }}
                         </p>
