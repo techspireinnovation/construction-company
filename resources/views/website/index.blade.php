@@ -229,25 +229,7 @@
                                     Get A Quote
                                 </a>
 
-                                <!-- CONSTANT BUTTON 1 -->
-                                <a href="/services" class="tp-caption tp-resizeme site-button"
-                                    id="slide-100-constant-btn-1"
-                                    data-x="570"
-                                    data-y="480"
-                                    data-width="['auto']"
-                                    data-height="['auto']"
-                                    data-type="button"
-                                    data-responsive="on"
-                                    data-responsive_offset="on"
-                                    data-frames='[{"delay":2000,"speed":1500,"frame":"0","from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"300","ease":"Power0.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgba(0,0,0,1);bg:rgba(255,255,255,1);bs:solid;bw:0 0 0 0;"}]'
-                                    data-textAlign="['inherit','inherit','inherit','inherit']"
-                                    data-paddingtop="[13,0,0,0]"
-                                    data-paddingright="[38,0,0,0]"
-                                    data-paddingbottom="[13,0,0,0]"
-                                    data-paddingleft="[38,0,0,0]"
-                                    style="z-index: 12; white-space: nowrap; line-height: 30px; font-weight: 600; font-family:'Raleway', sans-serif;border-radius:0px 0px 0px 0px;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer;text-decoration: none;background:#f00;color:#fff;">
-                                    Our Services
-                                </a>
+                               
 
                                 <!-- CONSTANT BUTTON 2 -->
                                 <a href="/contact" class="tp-caption tp-resizeme site-button white"
