@@ -428,7 +428,7 @@
 					<div class="col-md-8 m-auto">
 						<div class="section-head">
 							<h2>Subscribe For Newsletter</h2>
-							<p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of.</p>
+                            <p>Stay updated with our latest news, exciting projects, exclusive offers, and expert insights directly in your inbox. Enter your email below to subscribe and never miss an update from us.</p>
 						</div>
 						<form class="dzSubscribe" action="script/mailchamp.php" method="post">
 							<div class="dzSubscribeMsg"></div>
