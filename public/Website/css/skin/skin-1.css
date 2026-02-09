@@ -76,7 +76,7 @@
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label:before,
 .pagination li.active a,
 .rev-slider .tparrows {
-    background-color: #272727;
+ background-color: #353535 !important;
 }
 /*Hex color :hover */
 .page-item.active .page-link,
@@ -84,7 +84,7 @@
 .pagination > li > a:hover,
 .pagination > li > span:hover,
 .pagination > li > a:focus,
-.pagination > li > span:focus,
+.pagination > li > span:focus ,
 .pagination > .active > a,
 .pagination > .active > span,
 .pagination > .active > a:hover,
@@ -96,29 +96,30 @@
 .owl-btn-1.primary .owl-prev:hover,
 .owl-btn-1.primary .owl-next:hover,
 .owl-btn-2.primary .owl-prev:hover,
-.owl-btn-2.primary .owl-next:hover {
-    background-color: #272727;
+.owl-btn-2.primary .owl-next:hover{
+ background-color: #ff5e14;
 }
 .about-us .dez-tabs .nav-tabs li a.active {
-    border-right: 4px solid #1d46f5;
+ border-right: 4px solid #1d46f5;
 }
+
 
 /* Rgba color */
 .dez-info-has.bg-primary,
 .dez-info-has.bg-secondry:hover,
-.tp-bannertimer.tp-bottom {
-    background-color: rgba(255, 94, 165, 0.9);
+.tp-bannertimer.tp-bottom{
+ background-color: rgba(255, 94, 165, 0.9);
 }
 .main-slider .tp-shapewrapper.ov-tp {
-    background-color: rgba(255, 94, 165, 0.75);
+	background-color: rgba(255, 94, 165, 0.75);
 }
 /* Box Shadow */
 .side-bar .widget_tag_cloud a:hover {
-    box-shadow: 5px 5px 10px 0 rgba(255, 94, 165, 0.15);
+ box-shadow:5px 5px 10px 0 rgba(255, 94, 165, 0.15);
 }
 .team-section .team-content,
-.tp-overlay-video {
-    background-color: rgba(255, 94, 165, 0.7);
+.tp-overlay-video{
+	background-color: rgba(255, 94, 165, 0.7);
 }
 /*=====================
 	Premery text color
@@ -129,16 +130,7 @@ a,
 .breadcrumb-row ul li:last-child,
 .dez-topbar-left li i,
 .header-nav .nav > li.active > a,
-.header-nav
-    .nav
-    > li.current-menu-item
-    > a
-    .header-nav
-    .nav
-    > li
-    .sub-menu
-    li
-    a:hover,
+.header-nav .nav > li.current-menu-item > a .header-nav .nav > li .sub-menu li a:hover,
 .header-nav .nav > li:hover > a,
 .header-nav .nav > li .mega-menu > li ul a:hover,
 .header-nav .nav > li .sub-menu li:hover > a,
@@ -197,14 +189,14 @@ h6 a:hover,
 .widget_nav_menu li a:hover,
 .widget_recent_entries ul li a:hover,
 .widget_services ul li a:hover {
-    color: #ff5e14;
+ color: #ff5e14;
 }
 @media only screen and (max-width: 991px) {
-    .nav-dark.header-nav .nav > li > a:hover,
-    .nav-dark.header-nav .nav > li > a:active,
-    .nav-dark.header-nav .nav > li > a:focus {
-        color: #ff5e14;
-    }
+ .nav-dark.header-nav .nav > li > a:hover,
+	.nav-dark.header-nav .nav > li > a:active,
+	.nav-dark.header-nav .nav > li > a:focus {
+  color: #ff5e14;
+ }
 }
 /*=====================
 	Premery border color
@@ -227,21 +219,21 @@ input[type="radio"] + label:hover:before,
 .owl-theme.dots-style-3 .owl-dots .owl-dot.active,
 .owl-theme.dots-style-3 .owl-dots .owl-dot:hover,
 .side-bar .widget_tag_cloud a:hover {
-    border-color: #ff5e14;
+ border-color: #ff5e14;
 }
 .owl-item.active.center .testimonial-8 .testimonial-text:after {
-    border-top: 15px solid #ff5e14;
+ border-top:15px solid #ff5e14;
 }
 .dez-tabs.border-top .nav-tabs > li > a.active,
 .header-nav .nav > li .sub-menu,
 .header-nav .nav > li .mega-menu {
-    border-top-color: #ff5e14;
+ border-top-color: #ff5e14;
 }
 .port-style1 .port-box {
-    border-left: 3px solid #ff5e14;
+ border-left: 3px solid #ff5e14;
 }
 .choseus-tabs .nav li a.active {
-    border-bottom: 2px solid #ff5e14;
+	border-bottom: 2px solid #ff5e14;
 }
 .featurd-job-list .job-box-list:hover {
     border-left: 2px solid #ff5e14;
