@@ -20,7 +20,7 @@
                         <li>
                             <i class="fa fa-phone m-r10"></i>
                             <span>
-                                Phone {{ $siteSetting->primary_mobile_no ?? '+123-456-7890' }}
+                                Phone: {{ $siteSetting->primary_mobile_no ?? '+123-456-7890' }}
                             </span>
                         </li>
 
@@ -93,7 +93,7 @@
                 <!-- website logo -->
                 <div class="logo-header mostion">
                     <a href="{{ route('web.home') }}">
-                        <img src="{{ asset('Website/images/logo.png') }}" class="logo" alt="">
+                        <img src="{{ asset($siteSetting->logo_image ? 'storage/'.$siteSetting->logo_image : 'Website/images/logo2.png') }}" class="logo" alt=""          style="height:60px; width:auto;"  >
                     </a>
                 </div>
 
@@ -127,7 +127,7 @@
                 @php
                     $types = [
                         1 => 'Home', 2 => 'About Us', 3 => 'Services', 4 => 'Team',
-                        5 => 'Testimonial', 6 => 'Gallery', 7 => 'Portfolio', 8 => 'Blog',
+                        5 => 'Testimonial', 6 => 'Gallery', 7 => 'Projects', 8 => 'Blog',
                         9 => 'Career', 10 => 'Contact'
                     ];
 

@@ -22,4 +22,10 @@ class BlogCategory extends Model
         return $this->hasOne(SeoDetail::class, 'reference_id')
             ->where('type', 1); // Assuming 3 is for services
     }
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class, 'blog_category_id')
+            ->where('status', 1)
+            ->whereNull('deleted_at'); // optional, only active blogs
+    }
 }

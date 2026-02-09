@@ -24,6 +24,8 @@ class HeroSection extends Model
     protected $casts = [
         'hero_with_video' => 'array',
         'hero_with_images' => 'array',
+        'type' => 'integer',
+
     ];
 
     /**

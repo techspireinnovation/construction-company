@@ -36,6 +36,21 @@ Route::get('/services', [FrontendController::class, 'indexService'])->name('web.
 Route::get('/gallery', [FrontendController::class, 'indexGallery'])->name('web.gallery');
 Route::get('/services/{slug}', [FrontendController::class, 'serviceSingle'])
     ->name('web.service.single');
+// Blog single page
+// Blog search route
+Route::get('/blog/search', [FrontendController::class, 'blogSearch'])->name('web.blog.search');
+
+// Blog single page
+Route::get('/blog/{slug}', [FrontendController::class, 'blogSingle'])->name('web.blog.single');
+
+// Blog category page
+Route::get('/blog/category/{slug}', [FrontendController::class, 'blogCategory'])
+    ->name('web.blog.category');
+    Route::get('/career/{slug}', [FrontendController::class, 'careerSingle'])
+    ->name('web.career.single');
+    Route::get('/project/{slug}', [FrontendController::class, 'portfolioSingle'])
+    ->name('web.portfolio.single');
+
 
 # Authentication Routes
 Auth::routes();

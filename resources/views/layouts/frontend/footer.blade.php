@@ -1,80 +1,155 @@
-  <!-- Footer -->
-  <footer class="site-footer">
+<!-- Footer -->
+@php
+    $types = [
+        3 => 'Services',
+        7 => 'Projects',
+        8 => 'Blog',
+        9 => 'Career',
+        10 => 'Contact'
+    ];
+
+    $routes = [
+        3 => 'web.services',
+        7 => 'web.portfolio',
+        8 => 'web.blog',
+        9 => 'web.career',
+        10 => 'web.contact'
+    ];
+@endphp
+
+<footer class="site-footer">
     <div class="footer-top">
         <div class="container">
             <div class="row">
+                <!-- Logo & About -->
                 <div class="col-xl-3 col-lg-3 col-sm-6">
                     <div class="widget">
-                        <img src="{{asset('Website/images/logo2.png')}}" class="footer-logo" alt=""/>
-                        <p class="text-capitalize m-b20">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type.</p>
+                        <img src="{{ asset($siteSetting->logo_image ? 'storage/'.$siteSetting->logo_image : 'Website/images/logo2.png') }}"
+                             class="footer-logo"
+                             alt="{{ $siteSetting->company_name ?? 'Company Logo' }}"
+                             style="max-height:80px; object-fit:contain;"/>
+                        <p class="text-capitalize m-b20">
+                            {{ $siteSetting->footer_text ?? "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s." }}
+                        </p>
                         <div class="link">
-                            <a href="javascript:void(0);" class="btn btn-link">More Projects <i class="fa fa-angle-right"></i></a>
+                            <a href="{{ route('web.portfolio') }}" class="btn btn-link">More Projects <i class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-3  col-sm-6 col-12">
+
+                <!-- Services / What We Do -->
+                <div class="col-xl-3 col-lg-3 col-sm-6 col-12">
                     <div class="widget border-0">
-                        <h4>What We Do</h4>
+                        <h4>Our Services</h4>
                         <div class="divider-sc"></div>
                         <ul class="list-line">
-                            <li><a href="service-single.html">Construct</a></li>
-                             <li><a href="service-single.html">Building Design</a></li>
-                             <li><a href="service-single.html">Safety</a></li>
-                             <li><a href="service-single.html">Renovation</a></li>
-                             <li><a href="service-single.html">Architecture</a></li>
-                             <li><a href="service-single.html">Home Design</a></li>
+                            @if(isset($services) && $services->count())
+                                @foreach($services as $service)
+                                    <li>
+                                        <a href="{{ route('web.service.single', $service->slug) }}">{{ $service->title }}</a>
+                                    </li>
+                                @endforeach
+                            @else
+                                <li><a href="javascript:void(0);">Construct</a></li>
+                                <li><a href="javascript:void(0);">Building Design</a></li>
+                                <li><a href="javascript:void(0);">Safety</a></li>
+                                <li><a href="javascript:void(0);">Renovation</a></li>
+                                <li><a href="javascript:void(0);">Architecture</a></li>
+                                <li><a href="javascript:void(0);">Home Design</a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-3  col-sm-6 col-12">
+
+                <!-- Navigation Links / Find Links -->
+                <div class="col-xl-3 col-lg-3 col-sm-6 col-12">
                     <div class="widget border-0">
-                        <h4>Find Jobs</h4>
+                        <h4>Find Links</h4>
                         <div class="divider-sc"></div>
                         <ul class="list-line">
-                            <li><a href="#">Lorem Ipsum is simply dummy text of the printing.</a><span class="text-primary d-inline-block m-t5 p-l15">July 05, 2020</span></li>
-                            <li><a href="#">Lorem Ipsum is simply dummy text of the printing.</a><span class="text-primary d-inline-block m-t5 p-l15">July 05, 2020</span></li>
+                            @if(isset($pages) && $pages->count())
+                                @foreach($pages as $page)
+                                    @if(in_array($page->type, [3,7,8,9,10]))
+                                        <li>
+                                            <a href="{{ $routes[$page->type] ? route($routes[$page->type]) : '#' }}">
+                                                {{ $types[$page->type] ?? 'Unknown' }}
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            @else
+                                <li><a href="{{ route('web.home') }}">Home</a></li>
+                                <li><a href="{{ route('web.about') }}">About Us</a></li>
+                                <li><a href="{{ route('web.services') }}">Services</a></li>
+                                <li><a href="{{ route('web.portfolio') }}">Projects</a></li>
+                                <li><a href="{{ route('web.blog') }}">Blog</a></li>
+                                <li><a href="{{ route('web.career') }}">Career</a></li>
+                                <li><a href="{{ route('web.contact') }}">Contact</a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-3  col-sm-6 col-12">
+
+                <!-- Contact Info -->
+                <div class="col-xl-3 col-lg-3 col-sm-6 col-12">
                     <div class="widget widget_getintuch" style="background-image: url('{{ asset('Website/images/background/map.png') }}'); background-position:left bottom; background-repeat: no-repeat;">
-                        <h4 class="">Contact us</h4>
+                        <h4>Contact us</h4>
                         <div class="divider-sc"></div>
                         <ul>
-                            <li><i class="ti-location-pin"></i>demo address #8901 Marmora Road Chi Minh City, Vietnam </li>
-                            <li><i class="ti-mobile"></i>0800-123456 (24/7 Support Line)</li>
-                            <li><i class="ti-email"></i>info@example.com</li>
+                            <li><i class="ti-location-pin"></i>{{ $siteSetting->address ?? 'Demo address #8901 Marmora Road Chi Minh City, Vietnam' }}</li>
+                            <li><i class="ti-mobile"></i>{{ $siteSetting->primary_mobile_no ?? '0800-123456 (24/7 Support Line)' }}
+                                @if($siteSetting->secondary_mobile_no), {{ $siteSetting->secondary_mobile_no }} @endif
+                            </li>
+                            <li><i class="ti-email"></i>{{ $siteSetting->primary_email ?? 'info@example.com' }}
+                                @if($siteSetting->secondary_email), {{ $siteSetting->secondary_email }} @endif
+                            </li>
                         </ul>
                         <ul class="list-inline">
-                            <li><a href="javascript:void(0);" class="site-button-link facebook hover"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="javascript:void(0);" class="site-button-link google-plus hover"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="javascript:void(0);" class="site-button-link linkedin hover"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="javascript:void(0);" class="site-button-link instagram hover"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="javascript:void(0);" class="site-button-link twitter hover"><i class="fa fa-twitter"></i></a></li>
+                            @if($siteSetting->facebook_link)
+                                <li><a href="{{ $siteSetting->facebook_link }}" class="site-button-link facebook hover" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            @endif
+                            @if($siteSetting->google_link)
+                                <li><a href="{{ $siteSetting->google_link }}" class="site-button-link google-plus hover" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                            @endif
+                            @if($siteSetting->linkedin_link)
+                                <li><a href="{{ $siteSetting->linkedin_link }}" class="site-button-link linkedin hover" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                            @endif
+                            @if($siteSetting->instagram_link)
+                                <li><a href="{{ $siteSetting->instagram_link }}" class="site-button-link instagram hover" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            @endif
+                            @if($siteSetting->twitter_link)
+                                <li><a href="{{ $siteSetting->twitter_link }}" class="site-button-link twitter hover" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-    <!-- footer bottom part -->
+
+    <!-- Footer bottom -->
     <div class="footer-bottom">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6"><span>Copyrights © 2020 All Rights Reserved by <a href="#"> By RDX Theme </a> </span></div>
+                <div class="col-lg-6">
+                    <span>
+                        Copyrights © {{ date('Y') }} All Rights Reserved by
+                      <a href="https://techspireinnovation.com.np/" target="_blank">Techspire Innovation Pvt. Ltd</a>
+                    </span>
+                </div>
                 <div class="col-lg-6">
                     <ul class="footer-info-list text-right">
-                        <li><a href="javascript:void(0);"> About</a></li>
-                        <li><a href="javascript:void(0);"> Help Desk</a></li>
-                        <li><a href="javascript:void(0);"> Privacy Policy</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Help Desk</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 </footer>
-<!-- Footer END -->
 
-    <!-- scroll top button -->
-    <button class="scroltop fa fa-arrow-up" ></button>
+<!-- scroll top button -->
+<button class="scroltop fa fa-arrow-up"></button>
 </div>

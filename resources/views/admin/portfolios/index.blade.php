@@ -5,7 +5,7 @@
     <div class="page-content">
         <div class="container-fluid">
 
-            @include('components.toaster')
+            @include('_message')
 
             <!-- Page Title -->
             <div class="row">
