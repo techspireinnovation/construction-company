@@ -93,8 +93,12 @@
                 <!-- website logo -->
                 <div class="logo-header mostion">
                     <a href="{{ route('web.home') }}">
-                        <img src="{{ asset($siteSetting->logo_image ? 'storage/'.$siteSetting->logo_image : 'Website/images/logo2.png') }}" class="logo" alt=""          style="height:60px; width:auto;"  >
+                        <img src="{{ asset($siteSetting && $siteSetting->logo_image ? 'storage/'.$siteSetting->logo_image : 'Website/images/logo2.png') }}"
+                             class="logo"
+                             alt=""
+                             style="height:60px; width:auto;">
                     </a>
+
                 </div>
 
                 <!-- nav toggle button for mobile -->
