@@ -93,10 +93,10 @@
                 <!-- website logo -->
                 <div class="logo-header mostion">
                     <a href="{{ route('web.home') }}">
-                        <img src="{{ asset($siteSetting && $siteSetting->logo_image ? 'storage/'.$siteSetting->logo_image : 'Website/images/logo2.png') }}"
+                        <img src="{{ asset($siteSetting && $siteSetting->logo_image ? 'storage/'.$siteSetting->logo_image : 'Website/images/logo.png') }}"
                              class="logo"
                              alt=""
-                             style="height:60px; width:auto;">
+                             style="height:40px; width:auto;">
                     </a>
 
                 </div>
