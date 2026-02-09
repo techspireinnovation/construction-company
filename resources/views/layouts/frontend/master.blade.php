@@ -9,7 +9,8 @@
     @yield('meta_content')
 	<!-- FAVICONS ICON -->
 	<link rel="icon" href="images/favicon.ico" type="image/x-icon" />
-	<link rel="shortcut icon" type="image/x-icon" href="{{ asset($siteSetting->fav_icon_image ? 'storage/'.$siteSetting->fav_icon_image : 'Website/images/favicon.png') }}" />
+    <link rel="shortcut icon" type="image/x-icon"
+    href="{{ asset($siteSetting && $siteSetting->fav_icon_image ? 'storage/'.$siteSetting->fav_icon_image : 'Website/images/favicon.png') }}" />
 
 	<!-- PAGE TITLE HERE -->
 	{{-- <title>ConstBuild : Construction, Renovation & Building HTML Template</title> --}}
