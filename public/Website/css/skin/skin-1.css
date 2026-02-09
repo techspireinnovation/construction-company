@@ -76,7 +76,7 @@
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label:before,
 .pagination li.active a,
 .rev-slider .tparrows {
- background-color: #353535 !important;
+ background-color: #272727;
 }
 /*Hex color :hover */
 .page-item.active .page-link,
