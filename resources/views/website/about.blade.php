@@ -438,13 +438,22 @@
 							<h2>Subscribe For Newsletter</h2>
                             <p>Stay updated with our latest news, exciting projects, exclusive offers, and expert insights directly in your inbox. Enter your email below to subscribe and never miss an update from us.</p>
 						</div>
-						<form class="dzSubscribe" action="script/mailchamp.php" method="post">
-							<div class="dzSubscribeMsg"></div>
+                        @if(session('success'))
+                        <div class="alert alert-success mt-2">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+						<form class="dzSubscribe" action="{{ route('subscribe.store') }}"
+                        method="post">
+
+                      @csrf
+                      <div class="dzSubscribeMsg"></div>
+
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text"><i class="fa fa-envelope"></i></span>
 								</div>
-								<input name="dzEmail" required="required"  class="form-control" placeholder="Your Email Address" type="email">
+								<input name="email" required="required" class="form-control" placeholder="Your Email Address" type="email">
 								<div class="input-group-append">
 									<button class="site-button" name="submit" value="Submit" type="submit">Subscribe us</button>
 								</div>

@@ -20,7 +20,18 @@
     <meta property="twitter:description" content="{{ $meta_description }}">
     <meta property="twitter:image" content="{{ $meta_image }}">
 @endsection
+@section('style')
+<style>
+    .service-description p {
+    all: unset;
+    display: block;    /* keep paragraph structure */
+    color: #000000;
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
 
+</style>
+@endsection
 @section('content')
     <!-- Content -->
 	<div class="page-content">
@@ -86,16 +97,16 @@
 								<h2>{{ $service->title ?? 'Construct Design' }}</h2>
 								<div class="divider-sc"></div>
 							</div>
-							<div class="">
-                                <div class="">
-                                    @if(isset($service) && $service->description)
-                                        {!! $service->description !!}
-                                    @else
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.  It was popularised in the 1960s with the release of Letraset sheets containing.</p>
-                                    @endif
-                                </div>
-
+                            <div class="service-description">
+                                @if(isset($service) && $service->description)
+                                    {!! $service->description !!}
+                                @else
+                                    <p>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry...
+                                    </p>
+                                @endif
                             </div>
+
 
 							{{-- @if(isset($service) && $service->short_description)
 								<div class="">

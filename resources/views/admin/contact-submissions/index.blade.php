@@ -59,9 +59,59 @@
                                                     <td class="email">{{ $contact->email }}</td>
                                                     <td class="mobile">{{ $contact->mobile ?? '-' }}</td>
                                                     <td class="subject">{{ $contact->subject }}</td>
-                                                    <td class="message">{{ Str::limit($contact->message, 50) }}</td>
+                                                    <td class="message">
+                                                        <a href="javascript:void(0);"
+                                                           data-bs-toggle="modal"
+                                                           data-bs-target="#messageModal{{ $contact->id }}">
+                                                            {{ Str::limit($contact->message, 50) }}
+                                                        </a>
+                                                    </td>
+
                                                     <td class="created">{{ $contact->created_at->format('d M Y') }}</td>
                                                 </tr>
+                                                <!-- Message Modal -->
+<div id="messageModal{{ $contact->id }}"
+    class="modal fade"
+    tabindex="-1"
+    aria-labelledby="messageModalLabel{{ $contact->id }}"
+    aria-hidden="true">
+
+   <div class="modal-dialog modal-dialog-centered">
+       <div class="modal-content">
+
+           <!-- Header -->
+           <div class="modal-header">
+               <h5 class="modal-title"
+                   id="messageModalLabel{{ $contact->id }}">
+                   Full Message
+               </h5>
+
+               <button type="button"
+                       class="btn-close"
+                       data-bs-dismiss="modal"
+                       aria-label="Close"></button>
+           </div>
+
+           <!-- Body -->
+           <div class="modal-body">
+               <p class="text-muted mb-0">
+                   {{ $contact->message }}
+               </p>
+           </div>
+
+           <!-- Footer (ONLY ONE BUTTON) -->
+           <div class="modal-footer">
+               <button type="button"
+                       class="btn btn-light"
+                       data-bs-dismiss="modal">
+                   Close
+               </button>
+           </div>
+
+       </div>
+   </div>
+</div>
+
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -74,9 +124,35 @@
                                     @endif
                                 </div>
 
-                                <div class="d-flex justify-content-end mt-3">
-                                    {{ $contacts->links() }}
+                                <div class="d-flex justify-content-end">
+                                    <div class="pagination-wrap hstack gap-2">
+
+                                        <!-- Previous -->
+                                        <a class="page-item pagination-prev {{ $contacts->previousPageUrl() ? '' : 'disabled' }}"
+                                           href="{{ $contacts->previousPageUrl() ?? 'javascript:void(0);' }}">
+                                            Previous
+                                        </a>
+
+                                        <!-- Page Numbers -->
+                                        <ul class="pagination listjs-pagination mb-0">
+                                            @for ($i = 1; $i <= $contacts->lastPage(); $i++)
+                                                <li class="page-item {{ $contacts->currentPage() == $i ? 'active' : '' }}">
+                                                    <a class="page-link" href="{{ $contacts->url($i) }}">
+                                                        {{ $i }}
+                                                    </a>
+                                                </li>
+                                            @endfor
+                                        </ul>
+
+                                        <!-- Next -->
+                                        <a class="page-item pagination-next {{ $contacts->nextPageUrl() ? '' : 'disabled' }}"
+                                           href="{{ $contacts->nextPageUrl() ?? 'javascript:void(0);' }}">
+                                            Next
+                                        </a>
+
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>

@@ -38,6 +38,8 @@ Route::get('/services', [FrontendController::class, 'indexService'])->name('web.
 Route::get('/gallery', [FrontendController::class, 'indexGallery'])->name('web.gallery');
 
 Route::post('/contact/send', [EmailContactController::class, 'sendContactForm'])->name('contact.send');
+Route::post('/subscribe', [SubscriptionController::class, 'store'])
+    ->name('subscribe.store');
 
 Route::get('/services/{slug}', [FrontendController::class, 'serviceSingle'])
     ->name('web.service.single');
