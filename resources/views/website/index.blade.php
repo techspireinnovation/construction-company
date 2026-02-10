@@ -30,6 +30,65 @@
     object-fit: cover;
     border-radius: 50%; /* keeps circle shape */
 }
+/* .client-logo span {
+    display: inline-block;
+    padding: 20px;
+    font-size: 16px;
+    color: #333;
+} */
+/* Partner Box Container */
+.partner-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 110px;
+    padding: 15px;
+    background: #ffffff;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+/* Hover Effect */
+.partner-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+/* Partner Logo */
+.partner-logo {
+    max-height: 70px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Partner Name Styling */
+.partner-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    font-size: 20px;
+    font-weight: 600;
+    color: #606061;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+
+    padding: 10px 12px;
+    width: 100%;
+
+
+    border-radius: 8px;
+}
+
+/* Optional Initial Letter Highlight */
+.partner-name::first-letter {
+    color: #ff5e14;   /* Theme color */
+    font-size: 18px;
+    font-weight: 700;
+}
+
 
 </style>
 @endsection
@@ -229,7 +288,7 @@
                                     Get A Quote
                                 </a>
 
-                               
+
 
                                 <!-- CONSTANT BUTTON 2 -->
                                 <a href="/contact" class="tp-caption tp-resizeme site-button white"
@@ -723,25 +782,50 @@
                             <div class="client-logo-carousel owl-carousel owl-theme gallery owl-btn-1">
 
                                 @forelse($partners as $partner)
-                                    <div class="item">
-                                        <div class="ow-client-logo">
-                                            <div class="client-logo">
-                                                <a href="#">
-                                                    <img
-                                                        src="{{ asset('storage/'.$partner->image) }}"
-                                                        alt="{{ $partner->name }}"
-                                                        style="max-height:100px; width:auto; margin:auto;"
-                                                    >
-                                                </a>
-                                            </div>
+                                <div class="item">
+                                    <div class="ow-client-logo">
+                                        <div class="client-logo text-center">
+
+                                            @php
+                                            $imagePath = public_path('storage/' . $partner->image);
+                                        @endphp
+
+                                        @if(!empty($partner->image) && file_exists($imagePath))
+
+                                            <a href="#" class="partner-box">
+                                                <img
+                                                    src="{{ asset('storage/'.$partner->image) }}"
+                                                    alt="{{ $partner->name }}"
+                                                    class="partner-logo"
+                                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                                                >
+
+                                                {{-- Name fallback --}}
+                                                <div class="partner-name" style="display:none;">
+                                                    {{ $partner->name }}
+                                                </div>
+                                            </a>
+
+                                        @else
+
+                                            <a href="#" class="partner-box">
+                                                <div class="partner-name">
+                                                    {{ $partner->name }}
+                                                </div>
+                                            </a>
+
+                                        @endif
+
+
                                         </div>
                                     </div>
-                                @empty
-                                    {{-- Empty fallback --}}
-                                    <div class="item text-center">
-                                        <p>No partners added yet.</p>
-                                    </div>
-                                @endforelse
+                                </div>
+                            @empty
+                                <div class="item text-center">
+                                    <p>No partners added yet.</p>
+                                </div>
+                            @endforelse
+
 
                             </div>
 
