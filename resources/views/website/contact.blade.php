@@ -154,46 +154,58 @@
 								<h3>Send Your Message Us</h3>
 								<div class="divider-sc"></div>
 							</div>
-							<form class="form-design dzForm" method="post" action="script/contact.php">
-								<input type="hidden" value="Contact" name="dzToDo">
-								<div class="dzFormMsg"></div>
-								<div class="row clearfix">
-									<div class="col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<input name="dzName" type="text" required="" class="form-control" placeholder="Your Name">
-										</div>
-									</div>
-									<div class="col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											 <input name="dzEmail" type="email" class="form-control" required="" placeholder="Your Email Id">
-										</div>
-									</div>
-									<div class="col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<input name="dzMobile" type="text" class="form-control" placeholder="Mobile No">
-										</div>
-									</div>
-									<div class="col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<input name="dzSubject" type="text" class="form-control" placeholder="Subject">
-										</div>
-									</div>
-									<div class="col-md-12 col-sm-12 col-12">
-										<div class="form-group">
-											<textarea name="dzMessage" rows="4" class="form-control" required="" placeholder="Your Message..."></textarea>
-										</div>
-									</div>
-									<div class="col-md-12 col-sm-12 col-12">
-										<div class="form-group">
-											<div class="g-recaptcha" data-sitekey="6LefsVUUAAAAADBPsLZzsNnETChealv6PYGzv3ZN" data-callback="verifyRecaptchaCallback" data-expired-callback="expiredRecaptchaCallback"></div>
-											<input class="form-control d-none" style="display:none;" data-recaptcha="true" required="" data-error="Please complete the Captcha">
-										</div>
-									</div>
-									<div class="col-md-12 col-sm-12 col-12 m-b30">
-										 <button name="submit" type="submit" value="Submit" class="site-button  w-100"> <span>Submit</span> </button>
-									</div>
-								</div>
-							</form>
+                            <form class="form-design" method="POST" action="{{ route('contact.send') }}">
+                                @csrf
+                                <input type="hidden" value="Contact" name="dzToDo">
+                                <div class="dzFormMsg"></div>
+                                @if(session('success'))
+                                <div class="alert alert-success">{{ session('success') }}</div>
+                            @endif
+
+                                <div class="row clearfix">
+                                    <div class="col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <input name="name" type="text" value="{{ old('name') }}" required class="form-control" placeholder="Your Name">
+                                            @error('name') <div style="color:red">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <input name="email" type="email" value="{{ old('email') }}" class="form-control" required placeholder="Your Email Id">
+                                            @error('email') <div style="color:red">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <input name="mobile" type="text" value="{{ old('mobile') }}" class="form-control" required placeholder="Mobile No">
+                                            @error('mobile') <div style="color:red">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <input name="subject" type="text" value="{{ old('subject') }}" class="form-control" required placeholder="Subject">
+                                            @error('subject') <div style="color:red">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <textarea name="message" rows="4" class="form-control" required placeholder="Your Message...">{{ old('message') }}</textarea>
+                                            @error('message') <div style="color:red">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- REMOVED reCAPTCHA SECTION -->
+
+                                    <div class="col-md-12 col-sm-12 col-12 m-b30">
+                                        <button name="submit" type="submit" value="Submit" class="site-button w-100"> <span>Submit</span> </button>
+                                    </div>
+                                </div>
+                            </form>
+
 						</div>
 
 					</div>

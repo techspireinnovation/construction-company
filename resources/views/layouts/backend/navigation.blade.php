@@ -27,7 +27,7 @@
     </div>
 
     <div id="scrollbar" data-sidebar-scroll>
-        <div class="container-fluid">
+        <div class="container-fluid" style="margin-bottom: 85px;">
             <div id="two-column-menu"></div>
             <ul class="navbar-nav" id="navbar-nav" data-sidebar-nav>
 
@@ -51,6 +51,13 @@
                        href="{{ route('admin.hero-sections.index') }}" data-nav-link>
                         <i data-feather="settings" class="icon-dual" data-nav-icon></i>
                         <span data-key="t-settings" data-nav-text>Hero Section</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}"
+                       href="{{ route('admin.pages.index') }}" data-nav-link>
+                        <i data-feather="file-text" class="icon-dual" data-nav-icon></i>
+                        <span data-key="t-pages-seo" data-nav-text>Pages SEO</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -198,13 +205,72 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}"
-                       href="{{ route('admin.pages.index') }}" data-nav-link>
-                        <i data-feather="file-text" class="icon-dual" data-nav-icon></i>
-                        <span data-key="t-pages-seo" data-nav-text>Pages SEO</span>
-                    </a>
-                </li>
+                @php
+                $blogRoutes = ['admin.blog-categories.*', 'admin.blogs.*'];
+            @endphp
+            <li class="nav-item" data-nav-item>
+                <a class="nav-link menu-link {{ request()->routeIs($blogRoutes) ? 'active' : '' }}"
+                   href="#sidebarBlog" data-bs-toggle="collapse" role="button"
+                   aria-expanded="{{ request()->routeIs($blogRoutes) ? 'true' : 'false' }}"
+                   aria-controls="sidebarBlog" data-nav-link>
+                    <i data-feather="book" class="icon-dual" data-nav-icon></i>
+                    <span data-key="t-blog" data-nav-text>Blog</span>
+                </a>
+                <div class="collapse menu-dropdown {{ request()->routeIs($blogRoutes) ? 'show' : '' }}"
+                     id="sidebarBlog" data-submenu>
+                    <ul class="nav nav-sm flex-column" data-submenu-list>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.blog-categories.index') }}"
+                               class="nav-link {{ request()->routeIs('admin.blog-categories.*') ? 'active' : '' }}"
+                               data-key="t-blog-categories" data-submenu-link>
+                                Blog Category
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.blogs.index') }}"
+                               class="nav-link {{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}"
+                               data-key="t-blogs" data-submenu-link>
+                                Blog List
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            @php
+    $emailRoutes = ['admin.contact-submissions.*', 'admin.subscriptions.*'];
+@endphp
+
+
+<li class="nav-item" data-nav-item>
+    <a class="nav-link menu-link {{ request()->routeIs($emailRoutes) ? 'active' : '' }}"
+       href="#sidebarEmail" data-bs-toggle="collapse" role="button"
+       aria-expanded="{{ request()->routeIs($emailRoutes) ? 'true' : 'false' }}"
+       aria-controls="sidebarEmail" data-nav-link>
+        <i data-feather="mail" class="icon-dual" data-nav-icon></i>
+        <span data-key="t-email" data-nav-text>Email Submissions</span>
+    </a>
+    <div class="collapse menu-dropdown {{ request()->routeIs($emailRoutes) ? 'show' : '' }}"
+         id="sidebarEmail" data-submenu>
+        <ul class="nav nav-sm flex-column" data-submenu-list>
+            <li class="nav-item">
+                <a href="{{ route('admin.contact-submissions.index') }}"
+                   class="nav-link {{ request()->routeIs('admin.contact-submissions.*') ? 'active' : '' }}"
+                   data-key="t-contact-submissions" data-submenu-link>
+                    Contact Submissions
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.subscriptions.index') }}"
+                   class="nav-link {{ request()->routeIs('admin.subscriptions.*') ? 'active' : '' }}"
+                   data-key="t-subscriptions" data-submenu-link>
+                    Subscription List
+                </a>
+            </li>
+        </ul>
+    </div>
+</li>
+
 
 <!-- Site Config -->
 <li class="nav-item">
