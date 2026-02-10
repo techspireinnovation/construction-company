@@ -29,7 +29,18 @@
 <meta property="og:image" content="{{ $metaImage }}">
 @endsection
 
+@section('style')
+<style>
+    .portfolio-description p {
+    all: unset;
+    display: block;    /* keep paragraph structure */
+    color: #000000;
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
 
+</style>
+@endsection
 
 @section('content')
 <div class="page-content">
@@ -120,17 +131,10 @@ $allProjects = App\Models\Portfolio::where('status',1)
 
 
 
-{{-- Short Description --}}
-@if($portfolio->short_description)
-<p class="lead">
-{{ $portfolio->short_description }}
-</p>
-@endif
-
 
 
 {{-- Description --}}
-<div class="m-b30">
+<div class="portfolio-description">
 {!! $portfolio->description !!}
 </div>
 

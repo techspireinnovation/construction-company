@@ -26,6 +26,15 @@
     padding: 10px 20px 30px 0px;
     color: #767676;
 }
+
+    .blog-description p {
+    all: unset;
+    display: block;    /* keep paragraph structure */
+    color: #000000;
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
 </style>
 @endsection
 
@@ -72,7 +81,7 @@
                                 </ul>
                             </div>
 
-                            <div class="dez-post-text">
+                            <div class="blog-description">
                                 {!! $blog->description !!}
                             </div>
                         </div>
