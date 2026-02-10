@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Backend\AboutController;
+use App\Http\Controllers\Backend\EmailContactController;
 use App\Http\Controllers\Backend\HeroSectionController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\PortfolioCategoryController;
 use App\Http\Controllers\Backend\PortfolioController;
+use App\Http\Controllers\Backend\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\HomeController;
@@ -34,6 +36,9 @@ Route::get('/blog', [FrontendController::class, 'indexBlog'])->name('web.blog');
 Route::get('/testimonial', [FrontendController::class, 'indexTestimonial'])->name('web.testimonial');
 Route::get('/services', [FrontendController::class, 'indexService'])->name('web.services');
 Route::get('/gallery', [FrontendController::class, 'indexGallery'])->name('web.gallery');
+
+Route::post('/contact/send', [EmailContactController::class, 'sendContactForm'])->name('contact.send');
+
 Route::get('/services/{slug}', [FrontendController::class, 'serviceSingle'])
     ->name('web.service.single');
 // Blog single page
@@ -46,9 +51,9 @@ Route::get('/blog/{slug}', [FrontendController::class, 'blogSingle'])->name('web
 // Blog category page
 Route::get('/blog/category/{slug}', [FrontendController::class, 'blogCategory'])
     ->name('web.blog.category');
-    Route::get('/career/{slug}', [FrontendController::class, 'careerSingle'])
+Route::get('/career/{slug}', [FrontendController::class, 'careerSingle'])
     ->name('web.career.single');
-    Route::get('/project/{slug}', [FrontendController::class, 'portfolioSingle'])
+Route::get('/project/{slug}', [FrontendController::class, 'portfolioSingle'])
     ->name('web.portfolio.single');
 
 
@@ -136,6 +141,14 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::get('/search', 'search')->name('search');
     });
 
+
+});
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    // Contact submissions
+    Route::get('contact-submissions', [EmailContactController::class, 'index'])->name('contact-submissions.index');
+
+    // Subscription list
+    Route::get('subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
 });
 
 # Update route for site settings outside of prefix group
