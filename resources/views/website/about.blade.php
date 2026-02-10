@@ -20,6 +20,14 @@
     <meta property="twitter:description" content="{{ $meta_description }}">
     <meta property="twitter:image" content="{{ $meta_image }}">
 @endsection
+@section('style')
+<style>
+    .box{
+        padding: 50px 20px 50px 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,.1);
+    }
+    </style>
+    @endsection
 
 @section('content')
 <div class="page-content">
@@ -158,7 +166,7 @@
                     @forelse($whyChooseUs as $key => $item)
 
                         <div class="col-md-4 col-sm-12 col-12 m-b30">
-                            <div class="approach-bx {{ $key == 1 ? 'active' : '' }}">
+                            <div class="box {{ $key == 1 ? 'active' : '' }}">
 
                                 {{-- ICON --}}
                                 <div class="icon_box">
