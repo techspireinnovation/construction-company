@@ -49,7 +49,7 @@
                                             removeBtnId="remove-partner-image"
                                             maxWidth="150"
                                             maxHeight="150"
-                                            :required="true"
+                                            :required="false"
                                             :error="$errors->first('image')"
                                             helpText="Upload partner image. Max size: 5MB."
                                         />
