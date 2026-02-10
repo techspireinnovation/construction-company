@@ -30,12 +30,11 @@
     object-fit: cover;
     border-radius: 50%; /* keeps circle shape */
 }
-/* .client-logo span {
-    display: inline-block;
-    padding: 20px;
-    font-size: 16px;
-    color: #333;
-} */
+.testimonial-sc .testimonial-au .testimonial-img {
+    position: absolute !important;
+    left: -10px !important;
+    top: 0px !important;
+}
 /* Partner Box Container */
 .partner-box {
     display: flex;
