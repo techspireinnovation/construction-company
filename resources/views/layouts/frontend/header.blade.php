@@ -96,7 +96,7 @@
                         <img src="{{ asset($siteSetting && $siteSetting->logo_image ? 'storage/'.$siteSetting->logo_image : 'Website/images/logo.png') }}"
                              class="logo"
                              alt=""
-                             style="height:40px; width:auto;">
+                             style="height:60px; width:auto;">
                     </a>
 
                 </div>
